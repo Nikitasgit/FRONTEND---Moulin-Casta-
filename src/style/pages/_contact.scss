@@ -1,0 +1,78 @@
+.contact-page {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 100%;
+  height: 100%;
+  background: url(/assets/img/moulin-global-view.jpg) center/cover;
+  .img-contact-page {
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    width: 100%;
+    padding-top: 80px;
+  }
+
+  input,
+  textarea {
+    padding: 2px 5px;
+    width: 100%;
+    border-radius: 2px;
+    background: rgb(243, 243, 243);
+    border: 1px solid gray;
+    font-size: 1rem;
+  }
+  .title-contact {
+    font-size: 1.4rem;
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .message {
+    flex-direction: column;
+  }
+  .form-contact {
+    margin: 200px auto 100px;
+    border-radius: 5px;
+    width: 70%;
+    z-index: 40;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    .input-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    & > div {
+      padding: 7px;
+    }
+    .submit-contact {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+
+      button {
+        padding: 5px 40px;
+        background: rgb(255, 183, 50);
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: white;
+        border: 1px solid rgb(205, 205, 205);
+        cursor: pointer;
+
+        border-radius: 3px;
+      }
+    }
+    @media screen and (max-width: 610px) {
+      width: 90%;
+      padding: 25px;
+    }
+  }
+}

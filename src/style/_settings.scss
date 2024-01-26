@@ -1,0 +1,52 @@
+@font-face {
+  font-family: "MerriWeather regular";
+  src: url(/assets/fonts/Merriweather-Regular.ttf);
+}
+
+@font-face {
+  font-family: "silk serif";
+  src: url(/assets/fonts/Silk-Serif-SemiBold.otf);
+}
+@font-face {
+  font-family: "satoshi light";
+  src: url(/assets/fonts/Satoshi-Light.ttf);
+}
+$font-1: "satoshi light";
+$font-2: "silk serif";
+$font-3: "MerriWeather regular";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  user-select: none;
+  font-family: $font-1;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+body {
+  color: #323232;
+  text-align: center;
+  scroll-behavior: smooth;
+  min-height: 100vh;
+}
+button {
+  color: #323232;
+}
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(0, 0%, 74%);
+  }
+  100% {
+    background-color: hsl(0, 0%, 96%);
+  }
+}
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+}

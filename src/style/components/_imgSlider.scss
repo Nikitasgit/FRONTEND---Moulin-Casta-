@@ -1,0 +1,133 @@
+.imgSlider {
+  overflow: hidden;
+  .slider {
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 998;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.712);
+    backdrop-filter: blur(2px);
+    img {
+      position: absolute;
+      border-radius: 10px;
+      object-fit: cover;
+      max-height: 650px;
+      max-width: 750px;
+      @media screen and (max-width: 750px) {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      @media screen and (max-height: 640px) {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+    .close-slider {
+      position: absolute;
+      z-index: 999;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 10px;
+      color: rgb(174, 174, 174);
+    }
+    span {
+      position: absolute;
+      transition: 0.3s;
+      padding: 0 10px;
+      font-size: 2.5rem;
+      cursor: pointer;
+      &:hover {
+        color: black;
+      }
+    }
+    .left-chevron,
+    .right-chevron {
+      z-index: 999;
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      transition: 0.4s;
+      color: rgb(0, 0, 0);
+      &:hover {
+        color: rgb(105, 105, 105);
+      }
+      @media screen and (max-width: 770px) {
+        color: rgb(212, 212, 212);
+      }
+    }
+    .left-chevron {
+      left: 0;
+    }
+    .right-chevron {
+      right: 0;
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 200px 200px;
+    gap: 10px;
+    grid-template-areas:
+      "main sec sec"
+      "main sec sec";
+    width: 100%;
+    position: relative;
+    @media screen and (max-width: 680px) {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 140px 140px 140px;
+      grid-template-areas:
+        "main main"
+        "sec sec"
+        "sec sec";
+    }
+    .main {
+      grid-area: main;
+    }
+    .button {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      padding: 3px 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid rgb(135, 135, 135);
+      transition: 0.4s;
+      &:hover {
+        background: white;
+      }
+      @media screen and (max-width: 430px) {
+        left: auto;
+        right: 10px;
+      }
+    }
+    .img-container {
+      border-radius: 5px;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      cursor: pointer;
+
+      .img-slider {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 1s;
+        &:hover {
+          scale: 1.04;
+        }
+      }
+    }
+  }
+}

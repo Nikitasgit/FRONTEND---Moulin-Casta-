@@ -1,0 +1,149 @@
+.amenities-moulin,
+.amenities-bergerie {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  font-size: 1.1rem;
+  li {
+    background: white;
+    display: flex;
+    gap: 5px;
+    border: 0.01rem solid rgb(227, 227, 227);
+    padding: 4px;
+    border-radius: 5px;
+    h5 {
+      opacity: 0.75;
+    }
+  }
+}
+
+.accomodation {
+  background: rgb(244, 243, 239);
+
+  text-align: left;
+  position: relative;
+  .accomodation-main {
+    max-width: 90%;
+    margin: 0 auto;
+    @media screen and (max-width: 530px) {
+      max-width: 93%;
+    }
+    .header-flex {
+      padding-top: 80px;
+      display: flex;
+      align-items: center;
+      .title {
+        padding: 20px 0;
+        h1 {
+          font-family: $font-1;
+          font-weight: 600;
+          letter-spacing: 1px;
+          font-size: 2.5rem;
+        }
+        @media screen and (max-width: 380px) {
+          padding-left: 5px;
+          h1 {
+            font-size: 1.9rem;
+          }
+        }
+
+        h3 {
+          font-size: 1.1rem;
+          @media screen and (max-width: 380px) {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+
+    .description-booking {
+      display: flex;
+      align-items: center;
+      padding: 25px 0px;
+      gap: 25px;
+
+      .descr-video {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        max-width: 60%;
+        .video-accomodation-container {
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          width: 100%;
+          .video-accomodation {
+            width: 100%;
+            height: 100%;
+            max-height: 210px;
+            border-radius: 3px;
+            object-fit: cover;
+            transition: 0.8s;
+          }
+        }
+        .description {
+          padding: 10px 0;
+          justify-content: space-between;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          z-index: 2;
+          height: 100%;
+
+          h2 {
+            position: relative;
+            max-width: 300px;
+          }
+          .important-message {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: rgb(108, 145, 131);
+            h4 {
+              letter-spacing: 1px;
+            }
+          }
+          p {
+            font-size: 1.1rem;
+          }
+
+          .check-inOut {
+            display: flex;
+            gap: 25px;
+          }
+        }
+      }
+      .booking {
+        z-index: 50;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .calendar {
+          position: relative;
+          .inputBox {
+            width: 100%;
+            font-size: 1rem;
+            text-align: center;
+            border: 1px solid lightgray;
+            border-radius: 5px;
+            padding: 5px 0;
+          }
+        }
+      }
+      @media screen and (max-width: 925px) {
+        display: flex;
+        flex-direction: column;
+        h2 {
+          display: none;
+        }
+        .descr-video {
+          max-width: 100%;
+        }
+      }
+    }
+  }
+}

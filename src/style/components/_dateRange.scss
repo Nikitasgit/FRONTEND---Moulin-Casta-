@@ -9,8 +9,21 @@
 div:has(> .calendarWrap) {
   width: 100%;
 }
-.calendarElement {
+.rdrMonths,
+.rdrMonthsHorizontal,
+.rdrMonth,
+.rdrCalendarWrapper {
+  width: 100%;
+}
+.rdrCalendarWrapper {
   border-radius: 10px;
+}
+.rdrDateDisplayWrapper {
+  border-radius: 10px;
+}
+.rdrDayDisabled {
+  background: #c14b28ad;
+  color: black;
 }
 .btn-edit {
   background: #559f7b;
@@ -31,10 +44,12 @@ div:has(> .calendarWrap) {
 .edit-calendar-wrapper {
   display: flex;
   gap: 30px;
-  padding: 30px 15px;
+  padding: 30px 0px;
+
   .calendarEdit-wrapper-and-button {
     width: 400px;
     .calendarEdit-wrapper {
+      height: 100%;
       color: white;
       display: flex;
       flex-direction: column;
@@ -64,11 +79,12 @@ div:has(> .calendarWrap) {
       display: flex;
       flex-direction: column;
       gap: 10px;
-      .nights-and-price {
+      .nights-price-switch {
         color: white;
         display: flex;
         align-items: baseline;
         justify-content: space-around;
+
         input {
           background: none;
           border: none;
@@ -112,10 +128,24 @@ div:has(> .calendarWrap) {
           }
           .header-and-input {
             align-items: center;
+            justify-content: space-between;
             display: flex;
             gap: 10px;
           }
         }
+      }
+    }
+  }
+  @media screen and (max-width: 1000px) {
+    flex-direction: column-reverse;
+    .calendarEdit-wrapper-and-button {
+      width: 100%;
+    }
+    .calendar-and-edit {
+      flex-direction: column;
+      .edit-panel {
+        max-width: 100%;
+        width: 100%;
       }
     }
   }
@@ -134,33 +164,18 @@ div:has(> .calendarWrap) {
   gap: 8px;
   margin: 0 auto;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-
+  position: relative;
   .calendarElement {
-    max-width: 350px;
-    right: 0px;
-    top: -30px;
+    /* .rdrMonth {
+      width: 100%;
+    } */
+    right: 10px;
+    top: 10px;
     z-index: 50;
     position: absolute;
-    border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   }
-  .accomodation-input {
-    padding-bottom: 5px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    input {
-      border: 0 none;
-      font-size: 1rem;
-
-      font-weight: 500;
-      &:focus {
-        border: 0 none;
-        outline: none;
-      }
-    }
-  }
-
+  .input-dates,
   .input-name,
   .input-email,
   .travelers,
@@ -171,7 +186,12 @@ div:has(> .calendarWrap) {
     border: 1px solid lightgrey;
     resize: none;
   }
-
+  .input-dates {
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid rgb(106, 122, 72);
+  }
   .travelers {
     display: flex;
     gap: 15px;
@@ -215,45 +235,4 @@ div:has(> .calendarWrap) {
       outline: none;
     }
   }
-  h5 {
-    min-height: 18.4px;
-  }
-  .calendar-editor {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    & > div {
-      border: 1px solid black;
-      border-radius: 2px;
-      padding: 5px;
-      width: 100%;
-      justify-content: center;
-      display: flex;
-      gap: 3px;
-      flex-direction: column;
-    }
-    button {
-      padding: 1px 4px;
-      cursor: pointer;
-    }
-    input {
-      padding: 1px 4px;
-    }
-    .available-dates {
-      gap: 2px;
-
-      .date-inputs {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        gap: 5px;
-      }
-    }
-  }
-}
-.rdrMonth {
-  width: 100%;
-}
-.rdrCalendarWrapper {
-  width: 100%;
 }

@@ -12,7 +12,7 @@ const CalendarEdit = ({ id }) => {
     return selectAccommodationById(state, id);
   });
   const calendarStart = new Date(dates[0].date);
-  calendarStart.setDate(calendarStart.getDate() - 1);
+
   const calendarEnd = new Date(dates[dates.length - 1].date);
   const [range, setRange] = useState([
     {
@@ -22,14 +22,14 @@ const CalendarEdit = ({ id }) => {
     },
   ]);
   const [datesRange, setDatesRange] = useState([]);
-  const [buttonClick, setButtonClick] = useState(false);
 
   const getDatesBetween = (startDate, endDate) => {
     let dates = [];
     const currentDate = new Date(startDate);
     while (currentDate <= endDate) {
-      dates.push(new Date(currentDate));
-      currentDate.setDate(currentDate.getDate() + 1);
+      currentDate.setUTCHours(24, 0, 0, 0);
+      dates.push(currentDate.toISOString());
+      new Date(currentDate).setDate(currentDate.getDate() + 1);
     }
     return dates;
   };
@@ -38,50 +38,42 @@ const CalendarEdit = ({ id }) => {
   }, [range]);
   return (
     <div className="calendarEdit-wrapper-and-button">
-      {!buttonClick ? (
+      <div className="calendarEdit-wrapper">
+        <h4>
+          Ici, débloquez des dates. Sélectionner une période à débloquer et
+          cliquez sur " Débloquer "
+        </h4>
+        <DateRange
+          className="calendarEdit"
+          rangeColors={["#4d906f"]}
+          minDate={calendarStart}
+          maxDate={calendarEnd}
+          showMonthAndYearPickers={false}
+          locale={rdrLocales.fr}
+          months={1}
+          direction="vertical"
+          showDateDisplay={false}
+          ranges={range}
+          onChange={(item) => {
+            setRange([item.selection]);
+          }}
+        />
         <button
-          onClick={() => setButtonClick(true)}
-          className="btn-unblock-dates"
+          className="btn-edit"
+          on
+          onClick={() =>
+            dispatch(
+              updateAvailability({
+                accommodationId: id,
+                datesRange: datesRange,
+                availability: true,
+              })
+            )
+          }
         >
-          Débloquer des dates
+          Débloquer
         </button>
-      ) : (
-        <div className="calendarEdit-wrapper">
-          <h4>
-            Ici, débloquez des dates. Sélectionner une période à débloquer et
-            cliquez sur " Débloquer "
-          </h4>
-          <DateRange
-            className="calendarEdit"
-            minDate={calendarStart}
-            maxDate={calendarEnd}
-            showMonthAndYearPickers={false}
-            locale={rdrLocales.fr}
-            months={1}
-            direction="vertical"
-            showDateDisplay={false}
-            ranges={range}
-            onChange={(item) => {
-              setRange([item.selection]);
-            }}
-          />
-          <button
-            className="btn-edit"
-            on
-            onClick={() =>
-              dispatch(
-                updateAvailability({
-                  accommodationId: id,
-                  datesRange: datesRange,
-                  availability: true,
-                })
-              )
-            }
-          >
-            Débloquer
-          </button>
-        </div>
-      )}
+      </div>
     </div>
   );
 };

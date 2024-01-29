@@ -7,6 +7,7 @@ import { fetchAccommodations } from "./feature/accommodationsSlice";
 import NavBar from "./components/NavBar";
 
 import Accommodation from "./pages/Accommodation";
+import { changeLoginStatus } from "./feature/loginSlice";
 const App = () => {
   const dispatch = useDispatch();
   const { accommodations, isLoading } = useSelector(
@@ -14,6 +15,7 @@ const App = () => {
   );
   useEffect(() => {
     dispatch(fetchAccommodations());
+    dispatch(changeLoginStatus());
   }, [dispatch]);
 
   if (isLoading) {

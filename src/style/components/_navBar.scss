@@ -70,27 +70,51 @@ nav {
     gap: 30px;
     height: 100%;
     align-items: center;
-    .dropdown-container {
-      position: relative;
-      height: 100%;
-
-      .accomodations-menu {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        height: 100%;
+    .login-navbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      .login-icon,
+      .logout-icon {
         cursor: pointer;
-        transition: 0.4s;
-        .rotate {
-          transform: rotate(180deg);
-          transition: 0.3s;
-        }
-        &:hover {
-          color: rgb(133, 133, 133);
+      }
+      .inputs-login {
+        display: flex;
+        gap: 10px;
+        .email-login,
+        .password-login {
+          display: flex;
+          gap: 5px;
+          input {
+            padding-left: 5px;
+          }
         }
       }
     }
+    .menu-without-login {
+      display: flex;
+      gap: 20px;
+      .dropdown-container {
+        position: relative;
+        height: 100%;
 
+        .accomodations-menu {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          height: 100%;
+          cursor: pointer;
+          transition: 0.4s;
+          .rotate {
+            transform: rotate(180deg);
+            transition: 0.3s;
+          }
+          &:hover {
+            color: rgb(133, 133, 133);
+          }
+        }
+      }
+    }
     li {
       display: flex;
       align-items: center;

@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import accommodationsReducer from "./feature/accommodationsSlice";
-import picturesReducer from "./feature/picturesSlice";
+import loginReducer from "./feature/loginSlice";
 
 export const store = configureStore({
   reducer: {
     accommodations: accommodationsReducer,
-    pictures: picturesReducer,
+    login: loginReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

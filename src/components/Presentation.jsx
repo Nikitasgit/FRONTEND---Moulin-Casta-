@@ -10,10 +10,7 @@ import { GiWaterfall } from "react-icons/gi";
 import Carousel from "./Carousel";
 import Slideshow from "./Slideshow";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchPictures,
-  selectPicturesByAccommodation,
-} from "../feature/picturesSlice";
+
 import { useEffect } from "react";
 import { fetchAccommodations } from "../feature/accommodationsSlice";
 import Accommodation from "../pages/Accommodation";
@@ -48,10 +45,10 @@ const Presentation = () => {
                     {accommodation.extraInfo}
                   </h5>
                 </div>
-                <p>{accommodation.description}</p>{" "}
+                <p>{accommodation.description}</p>
               </div>
               <Slideshow
-                accommodation="moulin"
+                id={accommodation._id}
                 images={accommodation.pictures.slice(0, 5)}
               />
             </div>

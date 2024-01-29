@@ -27,9 +27,13 @@ export const updateDefaultRate = createAsyncThunk(
   "accommodations/updateDefaultRate",
   async ({ accommodationId, newDefaultRate }) => {
     try {
-      await axios.patch(`${url}/${accommodationId}/defaultRate`, {
-        defaultRate: newDefaultRate,
-      });
+      await axios.patch(
+        `${url}/${accommodationId}/defaultRate`,
+        {
+          defaultRate: newDefaultRate,
+        },
+        { headers: { Authorization: localStorage.getItem("SavedToken") } }
+      );
       return { accommodationId, newDefaultRate };
     } catch (error) {
       throw error;
@@ -39,6 +43,7 @@ export const updateDefaultRate = createAsyncThunk(
 export const updateAvailability = createAsyncThunk(
   "accommodations/updateAvailability",
   async ({ accommodationId, availability, datesRange }) => {
+    console.log(datesRange);
     try {
       await axios.patch(`${url}/${accommodationId}/dates/availability`, {
         dates: datesRange,
@@ -54,10 +59,14 @@ export const updateDatesRate = createAsyncThunk(
   "accommodations/updateDatesRate",
   async ({ accommodationId, newRate, datesRange }) => {
     try {
-      await axios.patch(`${url}/${accommodationId}/dates/rates`, {
-        dates: datesRange,
-        rate: newRate,
-      });
+      await axios.patch(
+        `${url}/${accommodationId}/dates/rates`,
+        {
+          dates: datesRange,
+          rate: newRate,
+        },
+        { headers: { Authorization: localStorage.getItem("SavedToken") } }
+      );
       return { accommodationId, datesRange, newRate };
     } catch (error) {
       throw error;
@@ -87,22 +96,8 @@ export const accommodationsSlice = createSlice({
       })
       .addCase(fetchAccommodations.fulfilled, (state, action) => {
         state.isLoading = false;
-        const transformedAccommodations = action.payload.accommodations.map(
-          (accommodation) => {
-            const transformedDates = accommodation.dates.map((dateObj) => {
-              const transformedDate = new Date(dateObj.date);
-              return {
-                ...dateObj,
-                date: transformedDate,
-              };
-            });
-            return {
-              ...accommodation,
-              dates: transformedDates,
-            };
-          }
-        );
-        state.accommodations = transformedAccommodations;
+
+        state.accommodations = action.payload.accommodations;
       })
 
       .addCase(fetchAccommodations.rejected, (state, action) => {
@@ -131,11 +126,7 @@ export const accommodationsSlice = createSlice({
           (accommodation) => accommodation._id === accommodationId
         );
         const updatedDates = accommodation.dates.map((date) => {
-          if (
-            datesRange.some(
-              (dateRange) => dateRange.getTime() === date.date.getTime()
-            )
-          ) {
+          if (datesRange.some((dateRange) => dateRange === date.date)) {
             return {
               ...date,
               available: availability,
@@ -152,11 +143,7 @@ export const accommodationsSlice = createSlice({
         );
 
         const updatedDates = accommodation.dates.map((date) => {
-          if (
-            datesRange.some(
-              (dateRange) => dateRange.getTime() === date.date.getTime()
-            )
-          ) {
+          if (datesRange.some((dateRange) => dateRange === date.date)) {
             return {
               ...date,
               rate: newRate,

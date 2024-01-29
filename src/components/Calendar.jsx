@@ -6,6 +6,7 @@ import * as rdrLocales from "react-date-range/dist/locale";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { useDispatch, useSelector } from "react-redux";
+import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import {
   addNights,
   addPrice,
@@ -15,22 +16,30 @@ import {
   updateDatesRate,
   updateDefaultRate,
 } from "../feature/accommodationsSlice";
+import { changeViewMode } from "../feature/loginSlice";
 const Calendar = ({ id, open }) => {
-  const { dates, defaultRate } = useSelector((state) => {
+  const dispatch = useDispatch();
+
+  const { dates } = useSelector((state) => {
     return selectAccommodationById(state, id);
   });
-  const calendarStart = new Date(dates[0].date);
-  calendarStart.setDate(calendarStart.getDate() - 1);
-  const calendarEnd = new Date(dates[dates.length - 1].date);
-  const dispatch = useDispatch();
-  const [price, setPrice] = useState();
   const nights = useSelector((state) => state.accommodations.nights);
+  const login = useSelector((state) => state.login.loginStatus);
+  const viewClient = useSelector((state) => state.login.viewClient);
+  const calendarStart = new Date(dates[0].date);
+  const calendarEnd = new Date(dates[dates.length - 1].date);
+
+  const [price, setPrice] = useState();
 
   const [newRate, setNewRate] = useState(null);
   const [availability, setAvailability] = useState(false);
   const [datesRange, setDatesRange] = useState([]);
   const [newDefaultRate, setNewDefaultRate] = useState(null);
-  const [login, setLogin] = useState(true);
+  const range2 = {
+    startDate: new Date(),
+    endDate: new Date(new Date().getDate() + 5),
+    key: "selection2",
+  };
   const [range, setRange] = useState([
     {
       startDate: new Date(dates[0].date),
@@ -49,10 +58,11 @@ const Calendar = ({ id, open }) => {
   const getPrice = () => {
     const matchingDates = dates.filter((date) => {
       return datesRange.some(
-        (dateRange) => dateRange.getTime() === date.date.getTime()
+        (dateRange) =>
+          new Date(new Date(dateRange).setHours(0, 0, 0, 0)).getTime() ===
+          new Date(new Date(date.date).setHours(0, 0, 0, 0)).getTime()
       );
     });
-    console.log(matchingDates);
     const lastDateIndex = matchingDates.length - 1;
     const sum = matchingDates.reduce((accumulator, date, index) => {
       if (index !== lastDateIndex) {
@@ -67,9 +77,11 @@ const Calendar = ({ id, open }) => {
     let dates = [];
     const currentDate = new Date(startDate);
     while (currentDate <= endDate) {
-      dates.push(new Date(currentDate));
-      currentDate.setDate(currentDate.getDate() + 1);
+      currentDate.setUTCHours(24, 0, 0, 0);
+      dates.push(currentDate.toISOString());
+      new Date(currentDate).setDate(currentDate.getDate() + 1);
     }
+
     return dates;
   };
 
@@ -82,66 +94,22 @@ const Calendar = ({ id, open }) => {
       ])
     );
   }, [range]);
+
   useEffect(() => {
     getPrice();
-  }, [datesRange]);
+  }, [datesRange, dates]);
+
   useEffect(() => {
     dispatch(addPrice(price));
     dispatch(addNights(datesRange.length - 1));
   }, [price]);
-  const sendEmail = (e) => {
-    e.preventDefault();
-    if (
-      id == "65b0e7e8ecb1e4316ecf6a9a" &&
-      range[0].startDate.getDay() !== 6 &&
-      range[0].endDate.getDay() !== 6
-    ) {
-      return alert(
-        "Réservations uniquement du samedi au samedi et moins de 31 jours."
-      );
-    }
-    return emailjs
-      .sendForm(
-        "service_fgm7jc6",
-        "template_l6sypol",
-        formRef.current,
-        "b1gBNi4bN5r_kBred"
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-          formRef.current.reset();
-          setFormSent(true);
-          submitRef.current.style.backgroundColor = "green";
-          setTimeout(() => {
-            submitRef.current.style.backgroundColor = "";
-            setFormSent(false);
-          }, 2500);
-        },
-        (error) => {
-          console.log(error.text);
-          formMess.innerHTML =
-            "<p className='error'>Une erreur s'est produite, veuillez réessayer</p>";
-          setTimeout(() => {
-            formMess.innerHTML = "";
-          }, 2500);
-        }
-      );
-
-    datesRef.current.style.color = " red";
-    datesRef.current.style.border = "1px solid red";
-    setTimeout(() => {
-      datesRef.current.style.color = "";
-      datesRef.current.style.border = "";
-    }, 2500);
-  };
-
   return (
     <div className="calendar-and-edit">
       {open && (
         <div className="calendar-and-total">
           <DateRange
             disabledDates={getUnavailableDates()}
+            rangeColors={["#4d906f"]}
             minDate={calendarStart}
             maxDate={calendarEnd}
             showMonthAndYearPickers={false}
@@ -154,30 +122,32 @@ const Calendar = ({ id, open }) => {
               setRange([item.selection]);
             }}
           />
-          <div className="nights-and-price">
-            <h5>
-              {nights} nuit{nights < 2 ? null : "s"} {`(`}{" "}
-              {nights > 0 ? Math.round(price / nights) : "0"}€/ nuit {`)`}
-            </h5>
-            <div>
-              <h3>
-                Total:{" "}
-                <input
-                  name="price"
-                  className="total"
-                  type="text"
-                  value={price}
-                  readOnly="readonly"
-                  required
-                  autoComplete="off"
-                />
-                €
-              </h3>
+          {login && !viewClient && (
+            <div className="nights-price-switch">
+              <h5>
+                {nights} nuit{nights < 2 ? null : "s"} {`(`}{" "}
+                {nights > 0 ? Math.round(price / nights) : "0"}€/ nuit {`)`}
+              </h5>
+              <div>
+                <h3>
+                  Total:{" "}
+                  <input
+                    name="price"
+                    className="total"
+                    type="text"
+                    value={price}
+                    readOnly="readonly"
+                    required
+                    autoComplete="off"
+                  />
+                  €
+                </h3>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
-      {login && (
+      {login && !viewClient && (
         <div className="edit-panel">
           <h3>
             Sélectionnez sur le calendrier les dates que vous voulez modifiez.
@@ -200,7 +170,7 @@ const Calendar = ({ id, open }) => {
                     updateDatesRate({
                       accommodationId: id,
                       newRate: newRate,
-                      datesRange: datesRange,
+                      datesRange: datesRange.slice(0, -1),
                     })
                   );
                 }}
@@ -216,7 +186,9 @@ const Calendar = ({ id, open }) => {
                 </h4>
                 <input
                   type="number"
-                  onChange={(e) => setNewDefaultRate(Number(e.target.value))}
+                  onChange={(e) => {
+                    setNewDefaultRate(Number(e.target.value));
+                  }}
                 />
               </div>
               <button
@@ -228,6 +200,7 @@ const Calendar = ({ id, open }) => {
                       newDefaultRate: newDefaultRate,
                     })
                   );
+                  getPrice();
                 }}
               >
                 Changer tarif par défault

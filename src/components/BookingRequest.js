@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Calendar from "./Calendar";
-import format from "date-fns/format";
+import emailjs from "@emailjs/browser";
 import { useSelector } from "react-redux";
 const BookingRequest = ({ id, name, capacity }) => {
   const range = useSelector((state) => state.accommodations.range);
@@ -8,12 +8,14 @@ const BookingRequest = ({ id, name, capacity }) => {
   const price = useSelector((state) => state.accommodations.price);
 
   const [calendarOpen, setCalendarOpen] = useState(false);
-  const [value, setValue] = useState(4);
+  const [value, setValue] = useState(capacity);
+  const [formSent, setFormSent] = useState(false);
 
   const formRef = useRef(null);
   const datesRef = useRef(null);
   const calendarRef = useRef(null);
   const inputRangeRef = useRef(null);
+  const submitRef = useRef(null);
 
   useEffect(() => {
     document.addEventListener("keydown", hideOnEscape, true);
@@ -30,9 +32,55 @@ const BookingRequest = ({ id, name, capacity }) => {
       setCalendarOpen(false);
     }
   };
-
+  const sendEmail = (e) => {
+    e.preventDefault();
+    if (
+      id == "65b0ebe1f5aa3f05de0cc9b9" &&
+      new Date(range[0]).getDay() !== 6 &&
+      new Date(range[1]).getDay() !== 6
+    ) {
+      alert("Réservation uniquement du samedi au samedi pour Le moulin Casta.");
+      datesRef.current.style.color = " red";
+      datesRef.current.style.border = "1px solid red";
+      setTimeout(() => {
+        datesRef.current.style.color = "";
+        datesRef.current.style.border = "";
+      }, 2500);
+    }
+    if (nights < 1) {
+      alert("Veuillez sélectionner des dates");
+    } else {
+      return emailjs
+        .sendForm(
+          "service_fgm7jc6",
+          "template_l6sypol",
+          formRef.current,
+          "b1gBNi4bN5r_kBred"
+        )
+        .then(
+          (result) => {
+            console.log(result.text);
+            formRef.current.reset();
+            setFormSent(true);
+            submitRef.current.style.backgroundColor = "green";
+            setTimeout(() => {
+              submitRef.current.style.backgroundColor = "";
+              setFormSent(false);
+            }, 2500);
+          },
+          (error) => {
+            console.log(error.text);
+            formMess.innerHTML =
+              "<p className='error'>Une erreur s'est produite, veuillez réessayer</p>";
+            setTimeout(() => {
+              formMess.innerHTML = "";
+            }, 2500);
+          }
+        );
+    }
+  };
   return (
-    <form ref={formRef} className="form">
+    <form ref={formRef} onSubmit={(e) => sendEmail(e)} className="form">
       <h3>Demande de réservation:</h3>
       <div className="calendar">
         <input
@@ -44,7 +92,7 @@ const BookingRequest = ({ id, name, capacity }) => {
         <input
           value={` ${range[0]} à ${range[1]} `}
           readOnly
-          className="inputBox"
+          className="input-dates"
           ref={datesRef}
           onClick={() => {
             setCalendarOpen(true);
@@ -67,6 +115,7 @@ const BookingRequest = ({ id, name, capacity }) => {
             max={capacity}
             defaultValue="4"
             name="travelers"
+            value={value}
             required
             autoComplete="off"
           />
@@ -126,6 +175,9 @@ const BookingRequest = ({ id, name, capacity }) => {
       <p>
         Nous vous contacterons après avoir reçu votre demande de réservation.
       </p>
+      <button type="submit" className="button" ref={submitRef}>
+        {formSent ? "Demande envoyée!" : "Réservation"}
+      </button>
     </form>
   );
 };

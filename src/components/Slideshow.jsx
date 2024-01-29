@@ -23,7 +23,7 @@ const variants = {
     };
   },
 };
-const Slideshow = ({ accommodation, images }) => {
+const Slideshow = ({ id, images }) => {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const nextStep = (images) => {
@@ -72,9 +72,7 @@ const Slideshow = ({ accommodation, images }) => {
       <button className="nextButton" onClick={() => nextStep(images)}>
         <BiChevronRight />
       </button>
-      <NavLink
-        to={accommodation == "moulin" ? "/accomodation-1" : "/accomodation-2"}
-      >
+      <NavLink to={`/${id}`}>
         <button className="more-button">Voir plus</button>
       </NavLink>
     </div>

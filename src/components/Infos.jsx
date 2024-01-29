@@ -5,7 +5,7 @@ const Infos = () => {
     <div>
       <div className="infos">
         <div className="img-infos">
-          <h2>Des lieux exeptionnels à seulement quelques kilomètres...</h2>
+          <h2>Des sites exeptionnels à quelques pas du moulin...</h2>
           <h3>
             Que ce soit pour vous détendre sur des plages paradisiaques, pour
             les amoureux de randonnée, les amateurs de produits locaux ou

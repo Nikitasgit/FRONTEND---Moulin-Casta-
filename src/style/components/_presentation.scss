@@ -1,5 +1,6 @@
 .overview {
   background-color: rgb(223, 223, 208);
+  padding-bottom: 30px;
   .intro {
     display: flex;
     align-items: center;
@@ -70,81 +71,64 @@
     }
   }
 
-  .accomodations {
-    text-align: end;
-    padding-bottom: 60px;
+  .accommodations {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    gap: 30px;
+    max-width: 90%;
+    margin: 0 auto;
     .accomodation {
-      height: 400px;
-      box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-      width: 90%;
-
+      height: 600px;
       margin: 0px auto;
-      padding: 30px;
+      padding: 20px;
       display: flex;
-      gap: 35px;
+      flex-direction: column;
+      gap: 17px;
       border-radius: 5px;
       background: rgb(255, 255, 255);
-
-      @media screen and (max-width: 800px) {
-        gap: 15px;
-        flex-direction: column;
-        height: auto;
+      .title-share {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+        .accomodation-title {
+          font-weight: 800;
+        }
       }
-      @media screen and (max-width: 380px) {
-        width: 95%;
-        padding: 15px;
-        gap: 15px;
+
+      .slideshow {
+        height: 55%;
+      }
+      .amenities-text {
+        height: 40%;
+        display: flex;
+        justify-content: space-around;
         flex-direction: column;
-        height: auto;
-        .availability-title {
-          display: none;
+        .amenities {
+          gap: 3px;
         }
       }
 
       .accomodation-text-container {
-        gap: 10px;
-        max-width: 50%;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        @media screen and (max-width: 800px) {
-          max-width: 100%;
-          width: 100%;
-          height: 100%;
-          .amenities-moulin,
-          .amenities-bergerie {
-            gap: 3px;
-            font-size: 0.9rem;
+        p {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          @media screen and (max-width: 1000px) {
+            -webkit-line-clamp: 3;
           }
         }
-        p {
+        @media screen and (max-width: 410px) {
+          display: none;
         }
-        button {
-          max-width: 100px;
-        }
-        .accomodation-title {
-          font-family: $font-3;
-          font-weight: 300;
-          font-size: 2.3rem;
-          color: rgb(70, 70, 70);
-        }
-        h5,
-        h4 {
-          opacity: 0.75;
-        }
-        h4 {
-          color: rgb(68, 145, 64);
-        }
-      }
-      .amenities-bergerie {
-        justify-content: flex-start;
       }
     }
-  }
-  .bergerie {
-    text-align: left;
+    @media screen and (max-width: 840px) {
+      flex-direction: column;
+    }
   }
 }

@@ -2,13 +2,15 @@ import { useState, useEffect, useRef } from "react";
 import { SlEnvolopeLetter } from "react-icons/sl";
 import { HiMenuAlt3 } from "react-icons/hi";
 import logo from "../assets/img/logo-moulin-casta.png";
+import shareIcon from "../assets/icons/share.png";
 import { outsideClick } from "./OutsideClickFunction";
 import { NavLink } from "react-router-dom";
 import { CiLogin } from "react-icons/ci";
 import { CiLogout } from "react-icons/ci";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { changeLoginStatus } from "../feature/loginSlice";
+import { changeLoginStatus, changeViewMode } from "../feature/loginSlice";
+import Share from "./Share";
 const NavBar = ({ data }) => {
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -26,6 +28,7 @@ const NavBar = ({ data }) => {
         localStorage.setItem("SavedToken", "Bearer " + token);
         axios.defaults.headers.common["Authorization"] = "Bearer " + token;
         dispatch(changeLoginStatus());
+        dispatch(changeViewMode(false));
       });
   };
   const setAlertLogOut = () => {
@@ -92,6 +95,12 @@ const NavBar = ({ data }) => {
                 <SlEnvolopeLetter className="contact-navbar-icon" />
                 <h4 className="contact-navbar">Nous contacter</h4>
               </NavLink>
+
+              <Share
+                title={document.querySelector("title").textContent}
+                url={encodeURI(window.location.href)}
+                message={"Venez découvrir Le Moulin Casta!"}
+              />
             </div>
           )}
           <div className="login-navbar" ref={loginRef}>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Footer from "../components/Footer";
 import ImgSlider from "../components/ImgSlider";
 import { BsExclamationTriangle } from "react-icons/bs";
@@ -10,6 +10,8 @@ import videoBg from "../assets/video/beach-corsica-drone.mp4";
 import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import { changeViewMode } from "../feature/loginSlice";
+import Amenities from "../components/Amenities";
+import Share from "../components/Share";
 const Accommodation = ({ data }) => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.login.loginStatus);
@@ -24,20 +26,28 @@ const Accommodation = ({ data }) => {
       videoRef.current.play();
     }
   };
+
   return (
     <div className="accomodation">
       <div className="accomodation-main">
         <div className="header-flex">
-          <div className="title">
-            <h1>{data.name}</h1>
-            <h3>{data.location}</h3>
+          <div className="title-share-accommodation">
+            <div className="title">
+              <h1>{data.name}</h1>
+              <h3>{data.location}</h3>
+            </div>
+            <Share
+              title={data.name}
+              url={encodeURI(window.location.href)}
+              message={`${data.description.substring(0, 80)}...`}
+            />
           </div>
           {login && (
             <div
               className="switch-mode"
               onClick={() => dispatch(changeViewMode(!viewClient))}
             >
-              <h3>Passer en vue client</h3>
+              <h3>Passer en vue {viewClient ? "hôte" : "client"}</h3>
               <HiOutlineSwitchHorizontal />
             </div>
           )}
@@ -63,10 +73,10 @@ const Accommodation = ({ data }) => {
                   <h4>Check-in: {data.hours.checkIn}</h4>
                   <h4>Check-out: {data.hours.checkOut}</h4>
                 </div>
-                <ul className="amenities-bergerie">
-                  {data.amenities.map((amenity) =>(
-
-                  ))}</ul>
+                <Amenities
+                  amenities={data.amenities}
+                  travelers={data.capacity}
+                />
                 <div
                   onClick={(e) => handleVideo(e)}
                   className="video-accomodation-container skeleton"

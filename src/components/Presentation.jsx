@@ -1,22 +1,30 @@
 import { Reveal } from "./Reveal";
 import imgMoulinNight from "../assets/img/moulin-night.jpg";
-import { VscPerson } from "react-icons/vsc";
-import { MdOutlineBed } from "react-icons/md";
-import { LuBedSingle } from "react-icons/lu";
-import { LuShowerHead } from "react-icons/lu";
-import { PiSwimmingPool } from "react-icons/pi";
-import { LuParkingSquare } from "react-icons/lu";
-import { GiWaterfall } from "react-icons/gi";
-import Carousel from "./Carousel";
 import Slideshow from "./Slideshow";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { useEffect } from "react";
-import { fetchAccommodations } from "../feature/accommodationsSlice";
-import Accommodation from "../pages/Accommodation";
+import Amenities from "./Amenities";
+import Share from "./Share";
 
 const Presentation = () => {
+  const url = "http://localhost:3000/";
   const { accommodations } = useSelector((state) => state.accommodations);
+  const filterAmenities = (amenities) => {
+    const selectedKeys = [
+      "bedrooms",
+      "swimmingPool",
+      "river",
+      "bathRoom",
+      "singleBed",
+      "doubleBed",
+      "garden",
+    ];
+
+    const filteredObject = Object.fromEntries(
+      Object.entries(amenities).filter(([key]) => selectedKeys.includes(key))
+    );
+    return filteredObject;
+  };
 
   return (
     <div className="overview">
@@ -34,51 +42,41 @@ const Presentation = () => {
 
       <h2 className="presentation-title">Nos logements</h2>
 
-      <div className="accomodations">
-        <Reveal>
-          {accommodations.map((accommodation) => (
+      <div className="accommodations">
+        {accommodations.map((accommodation) => (
+          <Reveal>
             <div className="accomodation">
-              <div className="accomodation-text-container">
+              <div className="title-share">
                 <h2 className="accomodation-title">{accommodation.name}</h2>
-                <div>
-                  <h5 className="availability-title">
-                    {accommodation.extraInfo}
-                  </h5>
-                </div>
-                <p>{accommodation.description}</p>
+                <Share
+                  title={accommodation.name}
+                  message={`${accommodation.description.substring(0, 80)}...`}
+                  url={url + accommodation._id}
+                />
               </div>
               <Slideshow
                 id={accommodation._id}
                 images={accommodation.pictures.slice(0, 5)}
               />
+              <div className="amenities-text">
+                <div>
+                  <Amenities
+                    amenities={filterAmenities(accommodation.amenities)}
+                    travelers={accommodation.capacity}
+                  />
+                </div>
+                <h5 className="extra-title">
+                  {accommodation.extraInfo
+                    ? accommodation.extraInfo
+                    : `À partir de ${accommodation.defaultRate}€ par nuit`}
+                </h5>
+                <div className="accomodation-text-container">
+                  <p>{accommodation.description}</p>
+                </div>
+              </div>
             </div>
-          ))}
-        </Reveal>
-
-        {/*       <ul className="amenities-moulin">
-                <li>
-                  <VscPerson />
-                  <h5>9 voyageurs</h5>
-                </li>
-                <li>
-                  <MdOutlineBed /> <h5>3 lits doubles</h5>
-                </li>
-                <li>
-                  <LuBedSingle /> <h5>3 lits simples</h5>
-                </li>
-                <li>
-                  <LuShowerHead /> <h5>2 salles de bains</h5>
-                </li>
-                <li>
-                  <PiSwimmingPool /> <h5>1 piscine</h5>
-                </li>
-                <li>
-                  <LuParkingSquare /> <h5>Parking</h5>
-                </li>
-                <li>
-                  <GiWaterfall /> <h5>Rivière</h5>
-                </li>
-              </ul> */}
+          </Reveal>
+        ))}
       </div>
     </div>
   );

@@ -93,7 +93,9 @@ nav {
     }
     .menu-without-login {
       display: flex;
+      align-items: baseline;
       gap: 20px;
+
       .dropdown-container {
         position: relative;
         height: 100%;
@@ -124,10 +126,10 @@ nav {
       cursor: pointer;
     }
     .contact-navbar-container {
+      display: flex;
+      gap: 5px;
       transition: 0.4s;
-      .contact-navbar-icon {
-        margin-right: 5px;
-      }
+
       &:hover {
         color: rgb(133, 133, 133);
       }

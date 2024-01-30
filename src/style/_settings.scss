@@ -50,3 +50,34 @@ a {
 .skeleton {
   animation: skeleton-loading 1s linear infinite alternate;
 }
+
+.share-icon {
+  height: 18px;
+  width: 18px;
+  transition: 0.3s;
+  &:hover {
+    cursor: pointer;
+    scale: 0.95;
+  }
+}
+.amenities {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 1.1rem;
+  & > div {
+    background: white;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    border: 0.01rem solid rgb(227, 227, 227);
+    padding: 4px 5px;
+    border-radius: 5px;
+    img {
+      height: 15px;
+      width: 15px;
+    }
+  }
+}

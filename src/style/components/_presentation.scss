@@ -28,82 +28,52 @@
     }
   }
   .presentation-title {
-    font-family: $font-1;
-    margin: 40px auto;
+    margin: 28px auto;
+    font-weight: 700;
     text-align: center;
-    font-size: 1.9rem;
-    width: 80%;
-    position: relative;
+    font-size: 2rem;
 
-    &::before {
-      content: "";
-      display: block;
-      width: 30%;
-      height: 0.01rem;
-      background: #4f4f4f;
-      left: 0;
-      top: 50%;
-      position: absolute;
-    }
-    &:after {
-      content: "";
-      display: block;
-      width: 30%;
-      height: 0.01rem;
-      background: #323232;
-      right: 0;
-      top: 50%;
-      position: absolute;
-    }
-    @media screen and (max-width: 800px) {
-      font-size: 1.7rem;
-      &::before,
-      &::after {
-        width: 15%;
-      }
-    }
-    @media screen and (max-width: 425px) {
-      font-size: 1.2rem;
-      &::before,
-      &::after {
-        width: 15%;
-      }
-    }
+    position: relative;
   }
 
   .accommodations {
     display: flex;
     gap: 30px;
-    max-width: 90%;
+    max-width: 95%;
     margin: 0 auto;
-    .accomodation {
+    .accommodation {
+      height: min-content;
+      text-align: left;
       height: 600px;
       margin: 0px auto;
-      padding: 20px;
+      padding: 30px;
+      border-radius: 5px;
       display: flex;
       flex-direction: column;
-      gap: 17px;
-      border-radius: 5px;
-      background: rgb(255, 255, 255);
+      gap: 27px;
+      background-color: white;
       .title-share {
         display: flex;
         align-items: center;
         width: 100%;
         justify-content: space-between;
+
         .accomodation-title {
-          font-weight: 800;
+          font-weight: 600;
         }
       }
 
       .slideshow {
-        height: 55%;
+        min-height: 300px;
       }
       .amenities-text {
-        height: 40%;
+        gap: 8px;
+        display: none;
         display: flex;
         justify-content: space-around;
         flex-direction: column;
         .amenities {
+          display: none;
           gap: 3px;
         }
       }
@@ -122,13 +92,17 @@
             -webkit-line-clamp: 3;
           }
         }
-        @media screen and (max-width: 410px) {
-          display: none;
-        }
       }
     }
     @media screen and (max-width: 840px) {
+      .accommodation {
+        padding: 20px;
+        height: min-content;
+        /*        background: none; */
+      }
       flex-direction: column;
+
+      gap: 10px;
     }
   }
 }

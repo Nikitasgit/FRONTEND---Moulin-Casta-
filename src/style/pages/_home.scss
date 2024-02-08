@@ -1,41 +1,50 @@
 .home {
+  .main-bg-img {
+    background: url(/assets/img/moulin-global-view.jpg) center/cover;
+    width: 100%;
+    height: 100%;
+  }
   .main {
     width: 100%;
     height: 100vh;
+    position: relative;
 
     video {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    .content {
-      text-align: center;
-      padding: 0 20px;
-      width: 100%;
+
+    .hearder-main-container {
       position: absolute;
-      height: 100%;
-      top: 0;
       display: flex;
-      gap: 15px;
+      left: 0;
+      top: 80px;
+      padding: 25px 35px;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: white;
-
+      background: #d9d9d9c5;
+      width: 100%;
       h1 {
-        font-size: 2.9rem;
-        font-family: $font-3;
-        color: rgb(244, 243, 239);
-        @media screen and (max-width: 350px) {
-          font-size: 2.2rem;
-        }
+        font-size: 2rem;
       }
       p {
-        font-size: 1.6rem;
-        font-weight: 600;
-        color: rgb(244, 243, 239);
-        letter-spacing: 1px;
+        font-size: 1.4rem;
       }
+      @media screen and (max-width: 560px) {
+        padding: 20px;
+        h1 {
+          font-size: 1.5rem;
+        }
+        p {
+          font-size: 1.1rem;
+        }
+      }
+    }
+
+    p {
+      font-size: 1.5rem;
     }
   }
 }

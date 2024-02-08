@@ -5,6 +5,7 @@ import NavBar from "../components/NavBar";
 import Presentation from "../components/Presentation";
 
 const Home = () => {
+  document.body.style.overflow = "unset";
   return (
     <div className="home">
       <Main />

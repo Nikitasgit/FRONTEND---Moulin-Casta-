@@ -22,14 +22,17 @@ const Footer = () => {
           intéresse. Nous vous contacterons au plus vite pour vous renseigner
           sur les modalités.
         </p>
-        <a
-          className="footer-link"
-          target="_blank"
-          href="https://github.com/Nikitasgit"
-        >
-          <p>Site by Victor Leman</p>
-          <AiFillGithub className="logo-github" />
-        </a>
+        <div className="attributions">
+          <p>Icons made by Freepik from www.flaticon.com</p>
+          <a
+            className="footer-link"
+            target="_blank"
+            href="https://github.com/Nikitasgit"
+          >
+            <p>Site by Victor Leman</p>
+            <AiFillGithub className="logo-github" />
+          </a>
+        </div>
       </div>
       <div className="contact-footer">
         <div className="person-contact">

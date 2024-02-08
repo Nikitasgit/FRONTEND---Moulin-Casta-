@@ -5,8 +5,6 @@ import { useSelector } from "react-redux";
 import { selectAccommodationById } from "../feature/accommodationsSlice";
 import { format } from "date-fns";
 const BookingRequest = ({ id, name, capacity }) => {
-  const nights = useSelector((state) => state.accommodations.nights);
-  const price = useSelector((state) => state.accommodations.price);
   const { dates } = useSelector((state) => {
     return selectAccommodationById(state, id) || {};
   });
@@ -14,6 +12,10 @@ const BookingRequest = ({ id, name, capacity }) => {
   const [value, setValue] = useState(capacity);
   const [formSent, setFormSent] = useState(false);
   const [range, setRange] = useState({});
+  const [price, setPrice] = useState();
+  const [nights, setNights] = useState(0);
+
+  const [datesRange, setDatesRange] = useState([]);
   const formRef = useRef(null);
   const datesRef = useRef(null);
   const calendarRef = useRef(null);
@@ -35,6 +37,47 @@ const BookingRequest = ({ id, name, capacity }) => {
       setCalendarOpen(false);
     }
   };
+  const getPrice = () => {
+    const matchingDates = dates.filter((date) => {
+      return datesRange.some(
+        (dateRange) =>
+          new Date(new Date(dateRange).setHours(0, 0, 0, 0)).getTime() ===
+          new Date(new Date(date.date).setHours(0, 0, 0, 0)).getTime()
+      );
+    });
+    const lastDateIndex = matchingDates.length - 1;
+    const sum = matchingDates.reduce((accumulator, date, index) => {
+      if (index !== lastDateIndex) {
+        return accumulator + date.rate;
+      }
+      return accumulator;
+    }, 0);
+    setPrice(sum);
+  };
+  const getDatesBetween = (startDate, endDate) => {
+    let dates = [];
+    const currentStartDate = new Date(startDate);
+    const currentEndDate = new Date(endDate);
+
+    currentStartDate.setUTCHours(0, 0, 0, 0);
+    currentEndDate.setUTCHours(0, 0, 0, 0);
+
+    let currentDate = new Date(currentStartDate);
+
+    while (currentDate <= currentEndDate) {
+      dates.push(currentDate.toISOString());
+      currentDate.setUTCDate(currentDate.getUTCDate() + 1);
+    }
+
+    return dates;
+  };
+  useEffect(() => {
+    setDatesRange(getDatesBetween(range.startDate, range.endDate));
+  }, [range]);
+  useEffect(() => {
+    setNights(datesRange.length > 0 ? datesRange.length - 1 : 0);
+    getPrice();
+  }, [datesRange]);
   const sendEmail = (e) => {
     e.preventDefault();
     if (
@@ -110,17 +153,19 @@ const BookingRequest = ({ id, name, capacity }) => {
           name="dates"
           required
         />
-        <div ref={calendarRef}>
-          <Calendar
-            editing={false}
-            defaultStart={new Date()}
-            dates={dates}
-            range={range}
-            onChange={(newRange) => {
-              setRange(newRange);
-            }}
-          />
-        </div>
+        {calendarOpen && (
+          <div ref={calendarRef} className="calendar-client">
+            <Calendar
+              editing={false}
+              defaultStart={new Date()}
+              dates={dates}
+              range={range}
+              onChange={(newRange) => {
+                setRange(newRange);
+              }}
+            />
+          </div>
+        )}
       </div>
       <div className="travelers">
         <h4>Voyageurs:</h4>

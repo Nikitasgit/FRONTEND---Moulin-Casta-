@@ -2,17 +2,20 @@ import { useState, useEffect, useRef } from "react";
 import { SlEnvolopeLetter } from "react-icons/sl";
 import { HiMenuAlt3 } from "react-icons/hi";
 import logo from "../assets/img/logo-moulin-casta.png";
-import shareIcon from "../assets/icons/share.png";
 import { outsideClick } from "./OutsideClickFunction";
 import { NavLink } from "react-router-dom";
 import { CiLogin } from "react-icons/ci";
 import { CiLogout } from "react-icons/ci";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { changeLoginStatus, changeViewMode } from "../feature/loginSlice";
+import {
+  changeLoginModalState,
+  changeLoginStatus,
+  changeViewMode,
+} from "../feature/loginSlice";
 import Share from "./Share";
+import Login from "./Login";
 const NavBar = ({ data }) => {
-  const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [dropdown, setDropdown] = useState(false);
   const [loginClicked, setLoginClicked] = useState(false);
@@ -20,41 +23,34 @@ const NavBar = ({ data }) => {
   const [password, setPassword] = useState(null);
   const login = useSelector((state) => state.login.loginStatus);
   const dispatch = useDispatch();
-  const userLogin = () => {
-    axios
-      .post("http://localhost:3010/auth/login", { email, password })
-      .then((res) => {
-        let token = res.data.token;
-        localStorage.setItem("SavedToken", "Bearer " + token);
-        axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-        dispatch(changeLoginStatus());
-        dispatch(changeViewMode(false));
-      });
-  };
   const setAlertLogOut = () => {
     if (confirm("Vous allez vous déconnecter, souhaitez-vous continuer?")) {
       localStorage.removeItem("SavedToken");
       dispatch(changeLoginStatus());
     }
   };
+  const modalState = useSelector((state) => state.login.loginModalState);
   const dropdownRef = useRef();
-  const loginRef = useRef();
-  outsideClick(dropdownRef, setDropdown);
-  outsideClick(loginRef, setLoginClicked);
+
   const controlNavbar = () => {
     if (typeof window !== "undefined") {
       if (window.scrollY > lastScrollY) {
         setDropdown(false);
-        setShow(false);
       } else {
         setDropdown(false);
-        setShow(true);
       }
 
       setLastScrollY(window.scrollY);
     }
   };
 
+  useEffect(() => {
+    if (modalState) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [modalState]);
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.addEventListener("scroll", controlNavbar);
@@ -68,7 +64,7 @@ const NavBar = ({ data }) => {
 
   return (
     <div ref={dropdownRef}>
-      <nav className={show ? "nav-active" : "hidden"}>
+      <nav className={"nav-active"}>
         <NavLink to="/">
           <img className="logo" src={logo} alt="logo-moulin-casta" />
         </NavLink>
@@ -103,25 +99,7 @@ const NavBar = ({ data }) => {
               />
             </div>
           )}
-          <div className="login-navbar" ref={loginRef}>
-            {loginClicked && (
-              <div className="inputs-login">
-                <div className="email-login">
-                  <h5>Email:</h5>
-                  <input
-                    type="text"
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="password-login">
-                  <h5>Password:</h5>
-                  <input
-                    type="text"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-              </div>
-            )}
+          <div className="login-navbar">
             {login ? (
               <CiLogout
                 className="logout-icon"
@@ -131,10 +109,7 @@ const NavBar = ({ data }) => {
               <CiLogin
                 className="login-icon"
                 onClick={() => {
-                  if (loginClicked) {
-                    userLogin();
-                  }
-                  setLoginClicked(!loginClicked);
+                  dispatch(changeLoginModalState(true));
                 }}
               />
             )}
@@ -170,6 +145,7 @@ const NavBar = ({ data }) => {
           </div>
         </div>
       )}
+      {modalState && <Login />}
     </div>
   );
 };

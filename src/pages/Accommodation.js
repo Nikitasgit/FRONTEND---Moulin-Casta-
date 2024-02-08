@@ -1,10 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Footer from "../components/Footer";
 import ImgSlider from "../components/ImgSlider";
 import { BsExclamationTriangle } from "react-icons/bs";
-/* import Calendar from "../components/Calendar"; */
-/* import { DateRange } from "react-date-range"; */
-/* import CalendarEdit from "../components/CalendarEdit"; */
 import BookingRequest from "../components/BookingRequest";
 import videoBg from "../assets/video/beach-corsica-drone.mp4";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +9,7 @@ import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import { changeViewMode } from "../feature/loginSlice";
 import Amenities from "../components/Amenities";
 import Share from "../components/Share";
-import CalendarLogic from "../components/CalendarLogic";
+import CalendarEditing from "../components/CalendarEditing";
 const Accommodation = ({ data }) => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.login.loginStatus);
@@ -29,8 +26,8 @@ const Accommodation = ({ data }) => {
   };
 
   return (
-    <div className="accomodation">
-      <div className="accomodation-main">
+    <div className="accommodation">
+      <div className="accommodation-main">
         <div className="header-flex">
           <div className="title-share-accommodation">
             <div className="title">
@@ -43,20 +40,20 @@ const Accommodation = ({ data }) => {
               message={`${data.description.substring(0, 80)}...`}
             />
           </div>
-          {login && (
-            <div
-              className="switch-mode"
-              onClick={() => dispatch(changeViewMode(!viewClient))}
-            >
-              <h3>Passer en vue {viewClient ? "hôte" : "client"}</h3>
-              <HiOutlineSwitchHorizontal />
-            </div>
-          )}
         </div>
         <ImgSlider images={data.pictures} />
+        {login && (
+          <button
+            className="switch-mode"
+            onClick={() => dispatch(changeViewMode(!viewClient))}
+          >
+            Passer en vue {viewClient ? "hôte" : "client"}
+            <HiOutlineSwitchHorizontal />
+          </button>
+        )}
         {login && !viewClient ? (
           <div className="edit-calendar-wrapper">
-            <CalendarLogic id={data._id} open={true} login={login} />
+            <CalendarEditing id={data._id} open={true} login={login} />
           </div>
         ) : (
           <div className="description-booking">

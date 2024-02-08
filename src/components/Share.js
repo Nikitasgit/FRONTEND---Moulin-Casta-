@@ -16,7 +16,7 @@ const Share = ({ url, title, message }) => {
     }
   };
   return (
-    <div>
+    <div className="share-container">
       <img
         src={shareIcon}
         className="share-icon"

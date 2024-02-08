@@ -25,14 +25,13 @@ const CalendarLogic = ({ id, open }) => {
     return selectAccommodationById(state, id) || {};
   });
 
-  const nights = useSelector((state) => state.accommodations.nights);
   const login = useSelector((state) => state.login.loginStatus);
 
   const viewClient = useSelector((state) => state.login.viewClient);
   const [switchValue, setSwitchValue] = useState(false);
   const [price, setPrice] = useState();
+  const [nights, setNights] = useState(0);
   const [newRate, setNewRate] = useState(null);
-  const [availability, setAvailability] = useState(false);
   const [datesRange, setDatesRange] = useState([]);
   const [newDefaultRate, setNewDefaultRate] = useState(null);
   const [range, setRange] = useState({});
@@ -75,26 +74,19 @@ const CalendarLogic = ({ id, open }) => {
 
   useEffect(() => {
     setDatesRange(getDatesBetween(range.startDate, range.endDate));
-    /* dispatch(
-      addRangeDates([
-        format(range.startDate, "dd/MM/yyyy"),
-        format(range.endDate, "dd/MM/yyyy"),
-      ])
-    ); */
   }, [range]);
 
   useEffect(() => {
+    setDatesRange(getDatesBetween(range.startDate, range.endDate));
+  }, [range]);
+  useEffect(() => {
+    setNights(datesRange.length > 0 ? datesRange.length - 1 : 0);
     getPrice();
   }, [datesRange, dates]);
-
-  /*   useEffect(() => {
-    dispatch(addPrice(price));
-    dispatch(addNights(datesRange.length - 1));
-  }, [price]); */
   return (
     <div className="calendar-and-edit">
       {open && (
-        <div className="calendar-and-total">
+        <div className="calendar-edit">
           <Calendar
             editing={login}
             disable={!switchValue}
@@ -105,34 +97,11 @@ const CalendarLogic = ({ id, open }) => {
               setRange(newRange);
             }}
           />
-          {login && !viewClient && (
-            <div className="nights-price-switch">
-              <h5>
-                {nights} nuit{nights < 2 ? null : "s"} {`(`}{" "}
-                {nights > 0 ? Math.round(price / nights) : "0"}€/ nuit {`)`}
-              </h5>
-              <div>
-                <h3>
-                  Total:{" "}
-                  <input
-                    name="price"
-                    className="total"
-                    type="text"
-                    defaultValue={price}
-                    readOnly="readonly"
-                    required
-                    autoComplete="off"
-                  />
-                  €
-                </h3>
-              </div>
-            </div>
-          )}
         </div>
       )}
       {login && !viewClient && (
         <div className="edit-panel">
-          <h3>
+          <h3 className="header-edit-panel">
             Sélectionnez sur le calendrier les dates que vous voulez modifiez.
           </h3>
           <div className="edit-options">
@@ -216,6 +185,25 @@ const CalendarLogic = ({ id, open }) => {
               >
                 {switchValue ? "Débloquer" : "Bloquer"}
               </button>
+            </div>
+          </div>
+          <div className="nights-price">
+            <h5 className="nights">
+              {nights} nuit{nights < 2 ? null : "s"} {`(`}{" "}
+              {nights > 0 ? Math.round(price / nights) : "0"}€/ nuit {`)`}
+            </h5>
+            <div className="price">
+              <h3>Total: </h3>
+              <input
+                name="price"
+                className="total"
+                type="text"
+                defaultValue={price}
+                readOnly="readonly"
+                required
+                autoComplete="off"
+              />
+              <h3>€</h3>
             </div>
           </div>
         </div>

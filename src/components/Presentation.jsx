@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 import Amenities from "./Amenities";
 import Share from "./Share";
+import { NavLink } from "react-router-dom";
 
 const Presentation = () => {
   const url = "http://localhost:3000/";
@@ -40,14 +41,15 @@ const Presentation = () => {
         <img src={imgMoulinNight} alt="" className=" circle-img skeleton" />
       </div>
 
-      <h2 className="presentation-title">Nos logements</h2>
+      <h2 className="presentation-title">Logements</h2>
 
       <div className="accommodations">
         {accommodations.map((accommodation) => (
           <Reveal>
-            <div className="accomodation">
+            <div className="accommodation">
               <div className="title-share">
                 <h2 className="accomodation-title">{accommodation.name}</h2>
+
                 <Share
                   title={accommodation.name}
                   message={`${accommodation.description.substring(0, 80)}...`}

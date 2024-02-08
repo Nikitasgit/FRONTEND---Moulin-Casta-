@@ -58,9 +58,9 @@ const Slideshow = ({ id, images }) => {
             animate="animate"
             initial="initial"
             exit="exit"
-            className="slides"
+            className="slides skeleton"
             src={images[index].url}
-            alt="slides"
+            alt=""
             key={images[index].imageName}
             custom={direction}
           />

@@ -19,14 +19,14 @@
     justify-content: center;
     align-items: center;
     z-index: 50;
-    border-radius: 500px;
+    border-radius: 5px;
     font-size: 1.5rem;
-    width: 36px;
-    height: 36px;
-    background-color: #ffffff5e;
+    width: 24px;
+    height: 24px;
+    background-color: #ffffffc1;
     border: none;
     cursor: pointer;
-    color: white;
+    color: rgb(80, 80, 80);
     transition: 0.5s;
     backdrop-filter: blur(1px);
     &:hover {
@@ -37,30 +37,33 @@
   .prevButton {
     position: absolute;
     top: 50%;
-    left: 13px;
+    left: 10px;
     transform: translateY(-50%);
   }
   .nextButton {
     position: absolute;
     top: 50%;
-    right: 13px;
+    right: 10px;
     transform: translateY(-50%);
   }
   .more-button {
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
-    bottom: 13px;
+    bottom: 10px;
     width: 120px;
-    height: 33px;
-    font-size: 1.3rem;
+    height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
     border-radius: 3px;
     border: none;
-    background: #ffffff5e;
+    background: #ffffffc9;
     transition: 0.5s;
     backdrop-filter: blur(1px);
     &:hover {
-      width: 140px;
+      width: 130px;
       color: #565656;
       background: rgba(255, 255, 255, 0.867);
       cursor: pointer;

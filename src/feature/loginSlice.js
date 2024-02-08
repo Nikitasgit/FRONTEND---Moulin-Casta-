@@ -2,8 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { GiToken } from "react-icons/gi";
 
 const initialState = {
-  loginStatus: true,
+  loginStatus: false,
   viewClient: false,
+  loginModalState: false,
 };
 
 const loginSlice = createSlice({
@@ -21,7 +22,11 @@ const loginSlice = createSlice({
     changeViewMode: (state, action) => {
       state.viewClient = action.payload;
     },
+    changeLoginModalState: (state, action) => {
+      state.loginModalState = action.payload;
+    },
   },
 });
 export default loginSlice.reducer;
-export const { changeLoginStatus, changeViewMode } = loginSlice.actions;
+export const { changeLoginStatus, changeViewMode, changeLoginModalState } =
+  loginSlice.actions;

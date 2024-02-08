@@ -8,6 +8,7 @@ import NavBar from "./components/NavBar";
 
 import Accommodation from "./pages/Accommodation";
 import { changeLoginStatus } from "./feature/loginSlice";
+import Loading from "./components/Loading";
 const App = () => {
   const dispatch = useDispatch();
   const { accommodations, isLoading } = useSelector(
@@ -19,7 +20,7 @@ const App = () => {
   }, [dispatch]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   const navbarData = accommodations.map((accommodation) => {
     const firstPicture =

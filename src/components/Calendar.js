@@ -226,21 +226,24 @@ const Calendar = ({ defaultStart, editing, disable, dates, onChange }) => {
 
   //handle events
   const handleCursorOut = () => {
-    if (!range.startDate) {
-      document
-        .querySelectorAll(`.evening-blocked-hover${classMode}`)
-        .forEach((el) => {
-          el.classList.remove(`evening-blocked-hover${classMode}`);
-        });
-      document
-        .querySelectorAll(`.morning-blocked-hover${classMode}`)
-        .forEach((el) => {
-          el.classList.remove(`morning-blocked-hover${classMode}`);
-        });
+    if (!range.endDate) {
+      document.querySelectorAll(`.highlighted${classMode}`).forEach((el) => {
+        el.classList.remove(`highlighted${classMode}`);
+      });
     }
     document.querySelectorAll(`.startDate-hover${classMode}`).forEach((el) => {
       el.classList.remove(`startDate-hover${classMode}`);
     });
+    document
+      .querySelectorAll(`.evening-blocked-hover${classMode}`)
+      .forEach((el) => {
+        el.classList.remove(`evening-blocked-hover${classMode}`);
+      });
+    document
+      .querySelectorAll(`.morning-blocked-hover${classMode}`)
+      .forEach((el) => {
+        el.classList.remove(`morning-blocked-hover${classMode}`);
+      });
   };
   const handleDateClick = (e) => {
     const targetDateElement = e.target.closest(".day");

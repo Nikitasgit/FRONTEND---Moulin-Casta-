@@ -49,13 +49,14 @@ const ImgSlider = ({ images }) => {
   useEffect(() => {
     document.addEventListener("keydown", hideOnEscape);
   }, []);
-  /*   useEffect(() => {
-    //preloading image
+
+  useEffect(() => {
     images.forEach((image) => {
       const img = new Image();
       img.src = image.url;
     });
-  }, []); */
+  }, []);
+
   useEffect(() => {
     if (toggleSlider) {
       document.body.style.overflow = "hidden";
@@ -70,18 +71,6 @@ const ImgSlider = ({ images }) => {
       setToggleSlider(false);
     }
   };
-
-  /*   const nextOnArrow = (e) => {
-    if (e.keyCode === 37) {
-      prevStep(images);
-    } else if (e.keyCode === 39) {
-      nextStep(images);
-    }
-    window.removeEventListener("keydown", nextOnArrow);
-  };
-  useEffect(() => {
-    window.addEventListener("keydown", nextOnArrow);
-  }, [count, toggleSlider]); */
   return (
     <div className="imgSlider">
       {toggleSlider && (

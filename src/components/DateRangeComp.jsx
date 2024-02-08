@@ -11,7 +11,9 @@ import emailjs from "@emailjs/browser";
 
 const DateRangeComp = ({ accomodation, defaultRate, accommodationRates }) => {
   const rates = accommodationRates;
-
+  const handleRangeChange = (newRange) => {
+    setRange(newRange);
+  };
   const [dates, setDates] = useState([]);
   const [price, setPrice] = useState(0);
   const [newDefaultRate, setNewDefaultRate] = useState(0);

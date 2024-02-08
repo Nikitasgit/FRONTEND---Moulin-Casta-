@@ -2,15 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import Calendar from "./Calendar";
 import emailjs from "@emailjs/browser";
 import { useSelector } from "react-redux";
+import { selectAccommodationById } from "../feature/accommodationsSlice";
+import { format } from "date-fns";
 const BookingRequest = ({ id, name, capacity }) => {
-  const range = useSelector((state) => state.accommodations.range);
   const nights = useSelector((state) => state.accommodations.nights);
   const price = useSelector((state) => state.accommodations.price);
-
+  const { dates } = useSelector((state) => {
+    return selectAccommodationById(state, id) || {};
+  });
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [value, setValue] = useState(capacity);
   const [formSent, setFormSent] = useState(false);
-
+  const [range, setRange] = useState({});
   const formRef = useRef(null);
   const datesRef = useRef(null);
   const calendarRef = useRef(null);
@@ -90,7 +93,14 @@ const BookingRequest = ({ id, name, capacity }) => {
           style={{ display: "none" }}
         />
         <input
-          value={` ${range[0]} à ${range[1]} `}
+          value={
+            !range.endDate
+              ? "Cliquez ici pour afficher le calendrier"
+              : `${format(range.startDate, "dd-MM-yyyy")} à ${format(
+                  range.endDate,
+                  "dd-MM-yyyy"
+                )}`
+          }
           readOnly
           className="input-dates"
           ref={datesRef}
@@ -101,7 +111,15 @@ const BookingRequest = ({ id, name, capacity }) => {
           required
         />
         <div ref={calendarRef}>
-          <Calendar id={id} open={calendarOpen} />
+          <Calendar
+            editing={false}
+            defaultStart={new Date()}
+            dates={dates}
+            range={range}
+            onChange={(newRange) => {
+              setRange(newRange);
+            }}
+          />
         </div>
       </div>
       <div className="travelers">
@@ -113,7 +131,6 @@ const BookingRequest = ({ id, name, capacity }) => {
             min="1"
             onChange={(e) => setValue(e.target.value)}
             max={capacity}
-            defaultValue="4"
             name="travelers"
             value={value}
             required
@@ -165,7 +182,7 @@ const BookingRequest = ({ id, name, capacity }) => {
           name="price"
           className="total"
           type="text"
-          value={price}
+          defaultValue={price}
           readOnly="readonly"
           required
           autoComplete="off"

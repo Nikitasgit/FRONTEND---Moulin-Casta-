@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import Footer from "../components/Footer";
 import ImgSlider from "../components/ImgSlider";
 import { BsExclamationTriangle } from "react-icons/bs";
-import Calendar from "../components/Calendar";
-import { DateRange } from "react-date-range";
-import CalendarEdit from "../components/CalendarEdit";
+/* import Calendar from "../components/Calendar"; */
+/* import { DateRange } from "react-date-range"; */
+/* import CalendarEdit from "../components/CalendarEdit"; */
 import BookingRequest from "../components/BookingRequest";
 import videoBg from "../assets/video/beach-corsica-drone.mp4";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import { changeViewMode } from "../feature/loginSlice";
 import Amenities from "../components/Amenities";
 import Share from "../components/Share";
+import CalendarLogic from "../components/CalendarLogic";
 const Accommodation = ({ data }) => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.login.loginStatus);
@@ -55,8 +56,7 @@ const Accommodation = ({ data }) => {
         <ImgSlider images={data.pictures} />
         {login && !viewClient ? (
           <div className="edit-calendar-wrapper">
-            <CalendarEdit id={data._id} className="calendarEdit-wrapper" />
-            <Calendar id={data._id} open={true} login={login} />
+            <CalendarLogic id={data._id} open={true} login={login} />
           </div>
         ) : (
           <div className="description-booking">

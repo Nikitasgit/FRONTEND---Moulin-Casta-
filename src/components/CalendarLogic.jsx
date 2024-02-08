@@ -17,43 +17,25 @@ import {
   updateDefaultRate,
 } from "../feature/accommodationsSlice";
 import { changeViewMode } from "../feature/loginSlice";
-const Calendar = ({ id, open }) => {
+import Calendar from "./Calendar";
+const CalendarLogic = ({ id, open }) => {
   const dispatch = useDispatch();
 
   const { dates } = useSelector((state) => {
-    return selectAccommodationById(state, id);
+    return selectAccommodationById(state, id) || {};
   });
+
   const nights = useSelector((state) => state.accommodations.nights);
   const login = useSelector((state) => state.login.loginStatus);
+
   const viewClient = useSelector((state) => state.login.viewClient);
-  const calendarStart = new Date(dates[0].date);
-  const calendarEnd = new Date(dates[dates.length - 1].date);
-
+  const [switchValue, setSwitchValue] = useState(false);
   const [price, setPrice] = useState();
-
   const [newRate, setNewRate] = useState(null);
   const [availability, setAvailability] = useState(false);
   const [datesRange, setDatesRange] = useState([]);
   const [newDefaultRate, setNewDefaultRate] = useState(null);
-  const range2 = {
-    startDate: new Date(),
-    endDate: new Date(new Date().getDate() + 5),
-    key: "selection2",
-  };
-  const [range, setRange] = useState([
-    {
-      startDate: new Date(dates[0].date),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
-
-  const getUnavailableDates = () => {
-    const unavailableDates = dates
-      .filter((date) => !date.available)
-      .map((date) => new Date(date.date));
-    return unavailableDates;
-  };
+  const [range, setRange] = useState({});
 
   const getPrice = () => {
     const matchingDates = dates.filter((date) => {
@@ -75,51 +57,52 @@ const Calendar = ({ id, open }) => {
 
   const getDatesBetween = (startDate, endDate) => {
     let dates = [];
-    const currentDate = new Date(startDate);
-    while (currentDate <= endDate) {
-      currentDate.setUTCHours(24, 0, 0, 0);
+    const currentStartDate = new Date(startDate);
+    const currentEndDate = new Date(endDate);
+
+    currentStartDate.setUTCHours(0, 0, 0, 0);
+    currentEndDate.setUTCHours(0, 0, 0, 0);
+
+    let currentDate = new Date(currentStartDate);
+
+    while (currentDate <= currentEndDate) {
       dates.push(currentDate.toISOString());
-      new Date(currentDate).setDate(currentDate.getDate() + 1);
+      currentDate.setUTCDate(currentDate.getUTCDate() + 1);
     }
 
     return dates;
   };
 
   useEffect(() => {
-    setDatesRange(getDatesBetween(range[0].startDate, range[0].endDate));
-    dispatch(
+    setDatesRange(getDatesBetween(range.startDate, range.endDate));
+    /* dispatch(
       addRangeDates([
-        format(range[0].startDate, "dd/MM/yyyy"),
-        format(range[0].endDate, "dd/MM/yyyy"),
+        format(range.startDate, "dd/MM/yyyy"),
+        format(range.endDate, "dd/MM/yyyy"),
       ])
-    );
+    ); */
   }, [range]);
 
   useEffect(() => {
     getPrice();
   }, [datesRange, dates]);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     dispatch(addPrice(price));
     dispatch(addNights(datesRange.length - 1));
-  }, [price]);
+  }, [price]); */
   return (
     <div className="calendar-and-edit">
       {open && (
         <div className="calendar-and-total">
-          <DateRange
-            disabledDates={getUnavailableDates()}
-            rangeColors={["#4d906f"]}
-            minDate={calendarStart}
-            maxDate={calendarEnd}
-            showMonthAndYearPickers={false}
-            locale={rdrLocales.fr}
-            months={1}
-            direction="horizontal"
-            className="calendarElement"
-            ranges={range}
-            onChange={(item) => {
-              setRange([item.selection]);
+          <Calendar
+            editing={login}
+            disable={!switchValue}
+            defaultStart={new Date()}
+            dates={dates}
+            range={range}
+            onChange={(newRange) => {
+              setRange(newRange);
             }}
           />
           {login && !viewClient && (
@@ -135,7 +118,7 @@ const Calendar = ({ id, open }) => {
                     name="price"
                     className="total"
                     type="text"
-                    value={price}
+                    defaultValue={price}
                     readOnly="readonly"
                     required
                     autoComplete="off"
@@ -207,20 +190,31 @@ const Calendar = ({ id, open }) => {
               </button>
             </div>
             <div className="edit-section">
-              <h4>Bloquez les dates sélectionnées:</h4>
+              <h4>Bloquez / Débloquez les dates sélectionnées:</h4>
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  onClick={() => setSwitchValue(!switchValue)}
+                  name=""
+                  id=""
+                />
+                <span className="slider round"></span>
+              </label>
               <button
-                className="btn-edit"
+                className={`btn-edit ${
+                  switchValue ? "green-button" : "red-button"
+                }`}
                 onClick={() => {
                   dispatch(
                     updateAvailability({
                       accommodationId: id,
-                      datesRange: datesRange,
-                      availability: availability,
+                      datesRange: datesRange.slice(0, -1),
+                      availability: switchValue,
                     })
                   );
                 }}
               >
-                Bloquer
+                {switchValue ? "Débloquer" : "Bloquer"}
               </button>
             </div>
           </div>
@@ -230,4 +224,4 @@ const Calendar = ({ id, open }) => {
   );
 };
 
-export default Calendar;
+export default CalendarLogic;

@@ -1,0 +1,34 @@
+.share-modal {
+  position: absolute;
+  z-index: 900;
+  width: 300px;
+  height: 230px;
+  background: #ffffff;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  left: 50%;
+  border-radius: 10px;
+  top: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 25px;
+  align-items: center;
+  .icons-share {
+    display: flex;
+    gap: 25px;
+  }
+  .close-modal {
+    position: absolute;
+    height: 23px;
+    cursor: pointer;
+    width: 23px;
+    top: 15px;
+    right: 15px;
+  }
+  img {
+    height: 38px;
+    width: 38px;
+  }
+}

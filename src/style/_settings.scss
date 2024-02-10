@@ -25,11 +25,10 @@ h3 {
   letter-spacing: 0.05rem;
   font-weight: 900;
 }
+
 body {
-  color: #323232;
   text-align: center;
   scroll-behavior: smooth;
-  min-height: 100vh;
 }
 button {
   color: #323232;
@@ -41,14 +40,14 @@ a {
 
 @keyframes skeleton-loading {
   0% {
-    background-color: hsl(0, 0%, 74%);
+    background-color: rgb(245, 245, 245);
   }
   100% {
-    background-color: hsl(0, 0%, 96%);
+    background-color: rgb(230, 230, 230);
   }
 }
 .skeleton {
-  animation: skeleton-loading 1s linear infinite alternate;
+  animation: skeleton-loading 2s linear infinite alternate;
 }
 
 .share-icon {

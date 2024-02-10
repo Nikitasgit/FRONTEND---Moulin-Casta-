@@ -90,7 +90,7 @@ const CalendarLogic = ({ id, open }) => {
           <Calendar
             editing={login}
             disable={!switchValue}
-            defaultStart={new Date()}
+            /* defaultStart={} */
             dates={dates}
             range={range}
             onChange={(newRange) => {

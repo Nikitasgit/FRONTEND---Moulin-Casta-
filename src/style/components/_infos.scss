@@ -1,15 +1,16 @@
 .infos {
   background: url(/assets/img/saleccia-3.webp);
-  height: 60vh;
+  height: 70svh;
+  height: 70vh;
   object-fit: cover;
-  background-size: cover;
+
   background-attachment: fixed;
   @media (hover: none) {
     background-attachment: initial;
   }
   .img-infos {
     height: 100%;
-    max-width: 80%;
+    max-width: 80vw;
     display: flex;
     gap: 25px;
     flex-direction: column;
@@ -41,6 +42,9 @@
   .map {
     margin-top: 20px;
     width: 100%;
+    &:focus {
+      border: none;
+    }
   }
 
   .contact-home {

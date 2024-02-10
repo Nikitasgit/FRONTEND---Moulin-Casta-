@@ -6,20 +6,20 @@ import { NavLink } from "react-router-dom";
 const variants = {
   initial: (direction) => {
     return {
-      x: direction > 0 ? 500 : -500,
+      x: direction > 0 ? 200 : -200,
       opacity: 0,
     };
   },
   animate: {
     x: 0,
     opacity: 1,
-    transition: "ease-in-out",
+    transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
   },
   exit: (direction) => {
     return {
-      x: direction > 0 ? -500 : 500,
+      x: direction > 0 ? -200 : 200,
       opacity: 0,
-      transition: "ease-in-out",
+      transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
     };
   },
 };

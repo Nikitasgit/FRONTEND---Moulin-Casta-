@@ -10,6 +10,7 @@ import { changeViewMode } from "../feature/loginSlice";
 import Amenities from "../components/Amenities";
 import Share from "../components/Share";
 import CalendarEditing from "../components/CalendarEditing";
+import PicturesEditor from "../components/PicturesEditor";
 const Accommodation = ({ data }) => {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.login.loginStatus);
@@ -41,7 +42,11 @@ const Accommodation = ({ data }) => {
             />
           </div>
         </div>
-        <ImgSlider images={data.pictures} />
+        {login && !viewClient ? (
+          <PicturesEditor images={data.pictures} accommodationId={data._id} />
+        ) : (
+          <ImgSlider images={data.pictures} />
+        )}
         {login && (
           <button
             className="switch-mode"

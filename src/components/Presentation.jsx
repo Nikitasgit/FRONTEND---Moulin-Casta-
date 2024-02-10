@@ -1,52 +1,65 @@
-import { Reveal } from "./Reveal";
+import { useRef } from "react";
+import { useSelector } from "react-redux";
+import { motion, useInView } from "framer-motion";
+import videoBg from "../assets/video/moulin-casta-video.mp4";
+import chevronDown from "../assets/icons/chevron.png";
 import imgMoulinNight from "../assets/img/moulin-night.jpg";
 import Slideshow from "./Slideshow";
-import { useSelector } from "react-redux";
-
-import Amenities from "./Amenities";
 import Share from "./Share";
-import { NavLink } from "react-router-dom";
 
 const Presentation = () => {
+  const titleRef = useRef(null);
+  const targetRef = useRef(null);
+  const scrollToTarget = (ref) => {
+    ref.current.scrollIntoView({ behavior: "smooth" });
+  };
+  const titleIsInView = useInView(titleRef, { once: true });
   const url = "http://localhost:3000/";
   const { accommodations } = useSelector((state) => state.accommodations);
-  const filterAmenities = (amenities) => {
-    const selectedKeys = [
-      "bedrooms",
-      "swimmingPool",
-      "river",
-      "bathRoom",
-      "singleBed",
-      "doubleBed",
-      "garden",
-    ];
-
-    const filteredObject = Object.fromEntries(
-      Object.entries(amenities).filter(([key]) => selectedKeys.includes(key))
-    );
-    return filteredObject;
-  };
-
   return (
-    <div className="overview">
-      <div className="intro">
-        <p className="overview-text">
-          Découvrez un havre de paix en Corse, niché au cœur d'une nature
-          préservée. Deux logements disponibles, loués à des périodes
-          différentes pour assurer une tranquillité totale à nos locataires. Un
-          logement peut acceuilir jusqu'à 9 personnes et l'autre jusqu'à 4
-          personnes. Nous vous garantissons calme et détente avec une rivière à
-          quelques pas du Moulin dans laquelle vous pourrez vous rafraîchir...
-        </p>
-        <img src={imgMoulinNight} alt="" className=" circle-img skeleton" />
+    <div className="main-container">
+      <div className="main skeleton">
+        <video loading="lazy" src={videoBg} loop autoPlay muted playsInline />
+        <div className="header-main-container">
+          <h1>Venez vivre une expérience unique en Haute-Corse</h1>
+          <p>En pleine nature et à seulement 20 minutes de Saint-Florent</p>
+
+          <img
+            src={chevronDown}
+            className="chevron-down"
+            onClick={() => scrollToTarget(targetRef)}
+          />
+        </div>
       </div>
+      <div className="overview" id="presentation">
+        <div className="intro">
+          <p className="overview-text">
+            Découvrez un havre de paix en Corse, niché au cœur d'une nature
+            préservée. Deux logements disponibles, loués à des périodes
+            différentes pour assurer une tranquillité totale à nos locataires.
+            Un logement peut acceuilir jusqu'à 9 personnes et l'autre jusqu'à 4
+            personnes. Nous vous garantissons calme et détente avec une rivière
+            à quelques pas du Moulin dans laquelle vous pourrez vous
+            rafraîchir...
+          </p>
+          <img src={imgMoulinNight} alt="" className=" circle-img skeleton" />
+        </div>
+        <span style={{ opacity: 0 }} ref={targetRef}></span>
+        <h2
+          ref={titleRef}
+          style={{
+            transform: titleIsInView ? "none" : "translateX(200px)",
+            opacity: titleIsInView ? 1 : 0,
+            transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
+          }}
+          className="presentation-title"
+        >
+          Logements
+        </h2>
 
-      <h2 className="presentation-title">Logements</h2>
-
-      <div className="accommodations">
-        {accommodations.map((accommodation) => (
-          <Reveal>
-            <div className="accommodation">
+        <div className="accommodations">
+          {accommodations.map((accommodation) => (
+            <div key={accommodation._id} className="accommodation">
               <div className="title-share">
                 <h2 className="accomodation-title">{accommodation.name}</h2>
 
@@ -61,12 +74,6 @@ const Presentation = () => {
                 images={accommodation.pictures.slice(0, 5)}
               />
               <div className="amenities-text">
-                <div>
-                  <Amenities
-                    amenities={filterAmenities(accommodation.amenities)}
-                    travelers={accommodation.capacity}
-                  />
-                </div>
                 <h5 className="extra-title">
                   {accommodation.extraInfo
                     ? accommodation.extraInfo
@@ -77,8 +84,8 @@ const Presentation = () => {
                 </div>
               </div>
             </div>
-          </Reveal>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

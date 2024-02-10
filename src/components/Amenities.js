@@ -33,7 +33,7 @@ const Amenities = ({ amenities, travelers }) => {
   const amenitiesList = [];
 
   amenitiesList.push(
-    <div>
+    <div key={"travelers"}>
       <img src={travelerIcon} alt="" />
       <h5>{travelers}</h5> <h5>{travelers <= 1 ? "voyageur" : "voyageurs"}</h5>
     </div>
@@ -43,7 +43,7 @@ const Amenities = ({ amenities, travelers }) => {
       switch (key) {
         case "bedrooms":
           amenitiesList.push(
-            <div>
+            <div key={key}>
               <img src={bedroomIcon} alt="" />
               <h5>{value}</h5> <h5>chambres</h5>
             </div>
@@ -51,7 +51,7 @@ const Amenities = ({ amenities, travelers }) => {
           break;
         case "surface":
           amenitiesList.push(
-            <div>
+            <div key={key}>
               <img src={houseIcon} alt="" />
               <h5>{value}</h5> <h5>m²</h5>
             </div>
@@ -59,7 +59,7 @@ const Amenities = ({ amenities, travelers }) => {
           break;
         case "singleBed":
           amenitiesList.push(
-            <div>
+            <div key={key}>
               <img src={singleBedIcon} alt="" />
               <h5>{value}</h5>
               <h5>{value <= 1 ? "lit simple" : "lits simples"}</h5>
@@ -68,7 +68,7 @@ const Amenities = ({ amenities, travelers }) => {
           break;
         case "doubleBed":
           amenitiesList.push(
-            <div>
+            <div key={key}>
               <img src={doubleBedIcon} alt="" />
               <h5>{value}</h5>
               <h5>{value <= 1 ? "lit double" : "lits doubles"}</h5>
@@ -77,7 +77,7 @@ const Amenities = ({ amenities, travelers }) => {
           break;
         case "bathRoom":
           amenitiesList.push(
-            <div>
+            <div key={key}>
               <img src={showerIcon} alt="" />
               <h5>{value}</h5>
               <h5>{value <= 1 ? "salle de bain" : "salles de bains"}</h5>
@@ -86,7 +86,7 @@ const Amenities = ({ amenities, travelers }) => {
           break;
         case "toilet":
           amenitiesList.push(
-            <div>
+            <div key={key}>
               <img src={toiletIcon} alt="" />
               <h5>{value}</h5>
               <h5>wc</h5>
@@ -96,7 +96,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "garden":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={gardenIcon} alt="" />
                 <h5>jardin</h5>
               </div>
@@ -105,7 +105,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "parking":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={parkingIcon} alt="" />
                 <h5>parking</h5>
               </div>
@@ -115,7 +115,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "seaView":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={seaViewIcon} alt="" />
                 <h5>vue mer</h5>
               </div>
@@ -124,7 +124,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "towels":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={towelsIcon} alt="" />
                 <h5>Draps et serviettes inclus</h5>
               </div>
@@ -133,7 +133,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "mountainView":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={mountainViewIcon} alt="" />
                 <h5>vue montagne</h5>
               </div>
@@ -142,7 +142,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "laundry":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={dishwasherIcon} alt="" />
                 <h5>machine à laver</h5>
               </div>
@@ -151,7 +151,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "dishwasher":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={laundryIcon} alt="" />
                 <h5>lave linge</h5>
               </div>
@@ -160,7 +160,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "microwave":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={microwaveIcon} alt="" />
                 <h5>micro-ondes</h5>
               </div>
@@ -169,7 +169,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "coffee":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={coffeeIcon} alt="" />
                 <h5>cafetière</h5>
               </div>
@@ -178,7 +178,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "hairdryer":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={hairdryerIcon} alt="" />
                 <h5>sèche-cheveux</h5>
               </div>
@@ -187,7 +187,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "barbecue":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={barbecueIcon} alt="" />
                 <h5>barbecue</h5>
               </div>
@@ -196,7 +196,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "river":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={riverIcon} alt="" />
                 <h5>rivière</h5>
               </div>
@@ -205,7 +205,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "swimmingPool":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={swimmingPoolIcon} alt="" />
                 <h5>piscine</h5>
               </div>
@@ -214,7 +214,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "wifi":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={wifiIcon} alt="" />
                 <h5>wifi</h5>
               </div>
@@ -223,7 +223,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "babyBed":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={babyBedIcon} alt="" />
                 <h5>lit bébé</h5>
               </div>
@@ -232,7 +232,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "jacuzzi":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={jacuzziIcon} alt="" />
                 <h5>jacuzzi</h5>
               </div>
@@ -241,7 +241,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "fireplace":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={fireplaceIcon} alt="" />
                 <h5>cheminée</h5>
               </div>
@@ -250,7 +250,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "petFriendly":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={petIcon} alt="" />
                 <h5>pet friendly</h5>
               </div>
@@ -259,7 +259,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "ac":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={acIcon} alt="" />
                 <h5>climatisation</h5>
               </div>
@@ -268,7 +268,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "oven":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={ovenIcon} alt="" />
                 <h5>four</h5>
               </div>
@@ -277,7 +277,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "gardenLounge":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={loungeIcon} alt="" />
                 <h5>salon de jardin</h5>
               </div>
@@ -286,7 +286,7 @@ const Amenities = ({ amenities, travelers }) => {
         case "petanque":
           value &&
             amenitiesList.push(
-              <div>
+              <div key={key}>
                 <img src={petanqueIcon} alt="" />
                 <h5>pétanque</h5>
               </div>
@@ -298,6 +298,7 @@ const Amenities = ({ amenities, travelers }) => {
     }
     return amenitiesList;
   };
+
   return <div className="amenities">{amenitiesDisplay()}</div>;
 };
 

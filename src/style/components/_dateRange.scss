@@ -35,6 +35,7 @@
       gap: 20px;
       .nights-price {
         display: flex;
+        flex-direction: column;
         justify-content: space-around;
         width: 100%;
         align-items: center;
@@ -160,10 +161,6 @@
           display: none;
         }
         border-radius: 0;
-        .nights-price {
-          flex-direction: column;
-          align-items: start;
-        }
       }
     }
   }
@@ -184,18 +181,22 @@
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   position: relative;
   .calendar-client {
-    width: 100%;
-    right: 0px;
+    width: 95%;
+
+    left: 50%;
     top: 10px;
+    transform: translateX((-50%));
     z-index: 50;
     position: absolute;
-
     box-shadow: rgba(0, 0, 0, 0.45) 0px 5px 15px;
     @media screen and (max-width: 925px) {
-      width: 60%;
+      width: 75%;
     }
     @media screen and (max-width: 650px) {
-      width: 100%;
+      width: 95%;
+    }
+    @media screen and (max-width: 400px) {
+      width: 105%;
     }
   }
   .input-dates,
@@ -229,6 +230,44 @@
       }
       input:active {
         cursor: grabbing;
+      }
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        background: transparent;
+
+        width: 10rem;
+      }
+      input[type="range"]::-webkit-slider-runnable-track {
+        background: #99bb9e;
+        border-radius: 50px;
+        height: 0.5rem;
+      }
+      input[type="range"]::-moz-range-track {
+        background: #99bb9e;
+        border-radius: 50px;
+        height: 0.5rem;
+      }
+
+      input[type="range"]::-moz-range-thumb {
+        border: none;
+        margin-top: -4px;
+        border-radius: 50px;
+        background-color: #ebebeb;
+        height: 1rem;
+        width: 1rem;
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        border-radius: 50px;
+        margin-top: -4px;
+        background-color: #ebebeb;
+        height: 1rem;
+        width: 1rem;
+      }
+      input[type="range"]:focus {
+        outline: none;
       }
     }
   }

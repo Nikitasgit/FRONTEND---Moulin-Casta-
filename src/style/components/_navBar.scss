@@ -30,9 +30,6 @@
 }
 
 nav {
-  .nav-active {
-    position: fixed;
-  }
   user-select: none;
   transition: 0.4s linear;
   height: 80px;
@@ -40,7 +37,7 @@ nav {
   display: flex;
   z-index: 110;
   position: fixed;
-  width: 100%;
+  width: 100vw;
   padding: 0 5%;
   align-items: center;
   justify-content: space-between;

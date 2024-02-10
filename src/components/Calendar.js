@@ -27,7 +27,6 @@ const Calendar = ({ defaultStart, editing, disable, dates, onChange }) => {
   const daysWrapper = useRef(null);
 
   //USEEFFECTS
-
   //assign either red or green color to selection
   useEffect(() => {
     editing && disable ? setClassMode("-red") : setClassMode("");
@@ -46,7 +45,6 @@ const Calendar = ({ defaultStart, editing, disable, dates, onChange }) => {
       ? new Date(foundDate.date)
       : new Date(dates[0].date);
 
-    setDefaultDate(selectedDate);
     setCurrentMonth(selectedDate.getMonth());
     setCurrentYear(selectedDate.getFullYear());
   }, []);

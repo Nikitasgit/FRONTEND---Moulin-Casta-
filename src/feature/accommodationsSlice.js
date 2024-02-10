@@ -40,10 +40,23 @@ export const updateDefaultRate = createAsyncThunk(
     }
   }
 );
+export const deletePicture = createAsyncThunk(
+  "accommodations/deletePicture",
+  async ({ accommodationId, pictureId }) => {
+    try {
+      await axios.delete(`${url}/${accommodationId}/pictures/${pictureId}`, {
+        headers: { Authorization: localStorage.getItem("SavedToken") },
+      });
+      return { accommodationId, pictureId };
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 export const updateAvailability = createAsyncThunk(
   "accommodations/updateAvailability",
   async ({ accommodationId, availability, datesRange }) => {
-    console.log(datesRange);
     try {
       await axios.patch(`${url}/${accommodationId}/dates/availability`, {
         dates: datesRange,
@@ -152,6 +165,16 @@ export const accommodationsSlice = createSlice({
           return date;
         });
         accommodation.dates = updatedDates;
+      })
+      .addCase(deletePicture.fulfilled, (state, action) => {
+        const { accommodationId, pictureId } = action.payload;
+        const accommodation = state.accommodations.find(
+          (accommodation) => accommodation._id === accommodationId
+        );
+        const updatedPictures = accommodation.pictures.filter((picture) => {
+          return picture._id !== pictureId;
+        });
+        accommodation.pictures = updatedPictures;
       });
   },
 });

@@ -58,10 +58,14 @@ export const updateAvailability = createAsyncThunk(
   "accommodations/updateAvailability",
   async ({ accommodationId, availability, datesRange }) => {
     try {
-      await axios.patch(`${url}/${accommodationId}/dates/availability`, {
-        dates: datesRange,
-        availability,
-      });
+      await axios.patch(
+        `${url}/${accommodationId}/dates/availability`,
+        {
+          dates: datesRange,
+          availability,
+        },
+        { headers: { Authorization: localStorage.getItem("SavedToken") } }
+      );
       return { accommodationId, datesRange, availability };
     } catch (error) {
       throw error;

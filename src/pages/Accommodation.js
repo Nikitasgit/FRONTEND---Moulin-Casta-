@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import Footer from "../components/Footer";
 import ImgSlider from "../components/ImgSlider";
+import addIcon from "../assets/icons/add.png";
 import { BsExclamationTriangle } from "react-icons/bs";
 import BookingRequest from "../components/BookingRequest";
 import videoBg from "../assets/video/beach-corsica-drone.mp4";
@@ -11,12 +12,45 @@ import Amenities from "../components/Amenities";
 import Share from "../components/Share";
 import CalendarEditing from "../components/CalendarEditing";
 import PicturesEditor from "../components/PicturesEditor";
+import { fetchAccommodations } from "../feature/accommodationsSlice";
+import axios from "axios";
 const Accommodation = ({ data }) => {
   const dispatch = useDispatch();
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const login = useSelector((state) => state.login.loginStatus);
   const viewClient = useSelector((state) => state.login.viewClient);
   const videoRef = useRef();
   const [videoPlay, setVideoPlay] = useState(true);
+  const handleFileChange = (event) => {
+    const files = event.target.files;
+    const selectedFilesArray = Array.from(files);
+    setSelectedFiles(selectedFilesArray);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const formData = new FormData();
+      selectedFiles.forEach((file) => {
+        formData.append("images", file);
+      });
+
+      await axios.post(
+        `http://localhost:3010/api/v1/accommodations/${data._id}/pictures`,
+        formData,
+        {
+          headers: {
+            Authorization: localStorage.getItem("SavedToken"),
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      dispatch(fetchAccommodations());
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const handleVideo = () => {
     setVideoPlay(!videoPlay);
     if (videoPlay) {
@@ -41,6 +75,27 @@ const Accommodation = ({ data }) => {
               message={`${data.description.substring(0, 80)}...`}
             />
           </div>
+          {login && !viewClient && (
+            <form className="add-pictures-form" onSubmit={handleSubmit}>
+              <h3 className="header-edit-panel">Ajoutez des photos:</h3>
+              <div className="pictures-form-inputs">
+                <label className="add-pictures-btn">
+                  <img src={addIcon} alt="" />
+                  <input
+                    type="file"
+                    accept="image/png, image/jpeg"
+                    multiple
+                    onChange={handleFileChange}
+                  />
+                </label>
+
+                <div className="submit-pictures">
+                  <p>{selectedFiles.length} image(s)</p>
+                  <input type="submit" value="Ajouter" />
+                </div>
+              </div>
+            </form>
+          )}
         </div>
         {login && !viewClient ? (
           <PicturesEditor images={data.pictures} accommodationId={data._id} />

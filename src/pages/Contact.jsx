@@ -1,7 +1,5 @@
 import React, { useRef, useState } from "react";
-import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import imgMoulin from "../assets/img/moulin-global-view.jpg";
 import { SlEnvolopeLetter } from "react-icons/sl";
 import emailjs from "@emailjs/browser";
 const Contact = () => {
@@ -41,12 +39,6 @@ const Contact = () => {
   };
   return (
     <div className="contact-page skeleton">
-      <NavBar />
-      {/*       <img
-        className="img-contact-page"
-        src={imgMoulin}
-        alt="background-contact"
-      /> */}
       <form ref={formRef} onSubmit={sendEmail} className="form-contact">
         <div className="title-contact">
           <h2>Contact</h2> <SlEnvolopeLetter />

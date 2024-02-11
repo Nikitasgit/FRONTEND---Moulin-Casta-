@@ -1,26 +1,22 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import format from "date-fns/format";
-import { DateRange } from "react-date-range";
-import * as rdrLocales from "react-date-range/dist/locale";
+import addIcon from "../assets/icons/add.png";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { useDispatch, useSelector } from "react-redux";
-import { HiOutlineSwitchHorizontal } from "react-icons/hi";
+
 import {
-  addNights,
-  addPrice,
-  addRangeDates,
+  fetchAccommodations,
   selectAccommodationById,
   updateAvailability,
   updateDatesRate,
   updateDefaultRate,
 } from "../feature/accommodationsSlice";
-import { changeViewMode } from "../feature/loginSlice";
 import Calendar from "./Calendar";
+
 const CalendarLogic = ({ id, open }) => {
   const dispatch = useDispatch();
-
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const { dates } = useSelector((state) => {
     return selectAccommodationById(state, id) || {};
   });
@@ -99,6 +95,7 @@ const CalendarLogic = ({ id, open }) => {
           />
         </div>
       )}
+
       {login && !viewClient && (
         <div className="edit-panel">
           <h3 className="header-edit-panel">

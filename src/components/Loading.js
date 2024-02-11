@@ -5,6 +5,9 @@ const Loading = () => {
     <div className="loading">
       <div>
         <img src={logo} />
+        <div className="dots-container">
+          <div className="loader"></div>
+        </div>
       </div>
     </div>
   );

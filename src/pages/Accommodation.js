@@ -12,8 +12,12 @@ import Amenities from "../components/Amenities";
 import Share from "../components/Share";
 import CalendarEditing from "../components/CalendarEditing";
 import PicturesEditor from "../components/PicturesEditor";
-import { fetchAccommodations } from "../feature/accommodationsSlice";
+import {
+  fetchAccommodations,
+  setLoading,
+} from "../feature/accommodationsSlice";
 import axios from "axios";
+import Loading from "../components/Loading";
 const Accommodation = ({ data }) => {
   const dispatch = useDispatch();
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -26,9 +30,11 @@ const Accommodation = ({ data }) => {
     const selectedFilesArray = Array.from(files);
     setSelectedFiles(selectedFilesArray);
   };
+  const loading = useSelector((state) => state.accommodations.isLoading);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    dispatch(setLoading(true));
     try {
       const formData = new FormData();
       selectedFiles.forEach((file) => {
@@ -59,7 +65,9 @@ const Accommodation = ({ data }) => {
       videoRef.current.play();
     }
   };
-
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div className="accommodation">
       <div className="accommodation-main">

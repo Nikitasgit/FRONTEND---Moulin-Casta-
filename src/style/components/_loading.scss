@@ -4,8 +4,38 @@
   height: 100svh;
   height: 100vh;
   align-items: center;
+  gap: 20px;
   justify-content: center;
   img {
     width: 150px;
+  }
+  .dots-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .loader {
+    width: 15px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    animation: l5 1s infinite linear alternate;
+  }
+  @keyframes l5 {
+    0% {
+      box-shadow: 20px 0 #447f62, -20px 0 #70a88d;
+      background: #447f62;
+    }
+    33% {
+      box-shadow: 20px 0 #447f62, -20px 0 #70a88d;
+      background: #70a88d;
+    }
+    66% {
+      box-shadow: 20px 0 #70a88d, -20px 0 #447f62;
+      background: #70a88d;
+    }
+    100% {
+      box-shadow: 20px 0 #70a88d, -20px 0 #447f62;
+      background: #447f62;
+    }
   }
 }

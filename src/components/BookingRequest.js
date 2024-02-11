@@ -4,12 +4,12 @@ import emailjs from "@emailjs/browser";
 import { useSelector } from "react-redux";
 import { selectAccommodationById } from "../feature/accommodationsSlice";
 import { format } from "date-fns";
-const BookingRequest = ({ id, name, capacity }) => {
-  const { dates } = useSelector((state) => {
+const BookingRequest = ({ id, name }) => {
+  const { dates, capacity } = useSelector((state) => {
     return selectAccommodationById(state, id) || {};
   });
   const [calendarOpen, setCalendarOpen] = useState(false);
-  const [value, setValue] = useState(capacity);
+  const [value, setValue] = useState();
   const [formSent, setFormSent] = useState(false);
   const [range, setRange] = useState({});
   const [price, setPrice] = useState();
@@ -21,7 +21,9 @@ const BookingRequest = ({ id, name, capacity }) => {
   const calendarRef = useRef(null);
   const inputRangeRef = useRef(null);
   const submitRef = useRef(null);
-
+  useEffect(() => {
+    setValue(capacity);
+  }, [capacity]);
   useEffect(() => {
     document.addEventListener("keydown", hideOnEscape, true);
     document.addEventListener("click", hideOnClickOutside, true);

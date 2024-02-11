@@ -104,6 +104,9 @@ export const accommodationsSlice = createSlice({
     addPrice: (state, action) => {
       state.price = action.payload;
     },
+    setLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -190,5 +193,5 @@ export const selectAccommodationById = (state, accommodationId) =>
 
 export default accommodationsSlice.reducer;
 
-export const { addRangeDates, addNights, addPrice } =
+export const { addRangeDates, addNights, addPrice, setLoading } =
   accommodationsSlice.actions;

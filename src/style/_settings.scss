@@ -6,9 +6,14 @@
   font-family: "Cabin Regular";
   src: url(/assets/fonts/Cabin-Regular.ttf);
 }
+@font-face {
+  font-family: "ProtestStrike Regular";
+  src: url(/assets/fonts/ProtestStrike-Regular.ttf);
+}
 
 $font-1: "Satoshi Light";
 $font-2: "Cabin Regular";
+$font-3: "ProtestStrike Regular";
 
 * {
   box-sizing: border-box;

@@ -6,7 +6,6 @@ import { outsideClick } from "./OutsideClickFunction";
 import { NavLink } from "react-router-dom";
 import { CiLogin } from "react-icons/ci";
 import { CiLogout } from "react-icons/ci";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeLoginModalState,
@@ -18,6 +17,7 @@ const NavBar = ({ data }) => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [dropdown, setDropdown] = useState(false);
   const login = useSelector((state) => state.login.loginStatus);
+  const dropdownRef = useRef();
   const dispatch = useDispatch();
   const setAlertLogOut = () => {
     if (confirm("Vous allez vous déconnecter, souhaitez-vous continuer?")) {
@@ -26,7 +26,8 @@ const NavBar = ({ data }) => {
     }
   };
   const modalState = useSelector((state) => state.login.loginModalState);
-  const dropdownRef = useRef();
+
+  outsideClick(dropdownRef, setDropdown);
 
   const controlNavbar = () => {
     if (typeof window !== "undefined") {
@@ -83,7 +84,7 @@ const NavBar = ({ data }) => {
   }, [lastScrollY]);
 
   return (
-    <div ref={dropdownRef}>
+    <div>
       <nav className={"nav-active"}>
         <NavLink to="/">
           <img className="logo" src={logo} alt="logo-moulin-casta" />
@@ -134,7 +135,7 @@ const NavBar = ({ data }) => {
         </div>
       </nav>
       {dropdown && (
-        <div className="dropdown">
+        <div className="dropdown" ref={dropdownRef}>
           <div className="dropdown-first-container">
             {data.map((accommodation) => (
               <NavLink
